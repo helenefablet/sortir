@@ -14,6 +14,23 @@
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <header>
+            {% if app.user %}
+                <div class="mb-3">
+
+                    {% if is_granted("ROLE_ADMIN") %}
+                        <a href="#">Gérer les utilisateurs</a>
+                        <a href="#">Gérer les villes</a>
+                        <a href="#">Gérer les campus</a>
+                    {% endif %}
+
+                    <a href="{{ path('accueil') }}">Accueil</a>
+                    <a href="#">Mon profil</a>
+                    <a href="{{ path('app_logout') }}">Se déconnecter</a>
+                </div>
+            {% endif %}
+        </header>
+        {% block body %}
+        {% endblock %}
     </body>
 </html>

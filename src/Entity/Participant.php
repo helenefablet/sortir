@@ -81,7 +81,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     private $est_inscrit;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255, unique=true, nullable=true)
      */
     private $pseudo;
 
