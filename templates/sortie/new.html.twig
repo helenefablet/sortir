@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle Sortie{% endblock %}
+
+{% block body %}
+    <h1>Créer une Sortie</h1>
+
+
+    {{ form_start(formS) }}
+    {{ form_row(formS.nom) }}
+    {{ form_row(formS.dateHeureDebut) }}
+    {{ form_row(formS.dateLimiteInscription) }}
+    {{ form_row(formS.nbInscriptionsMax) }}
+    {{ form_row(formS.duree) }}
+    {{ form_row(formS.infosSortie) }}
+
+    {{ app.user.campus.nom }}
+    {{ form_row(formS.lieu) }}
+
+    {{ form_end(formS) }}
+
+    <a href="{{ path('sortie_index') }}">back to list</a>
+{% endblock %}
