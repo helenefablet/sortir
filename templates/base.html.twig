@@ -17,6 +17,10 @@
         <header>
             {% if app.user %}
                 <div class="mb-3">
+                    {% if is_granted("ROLE_ORGANISATEUR") %}
+                        <a href="#">Gérer une sortie</a>
+
+                    {% endif %}
 
                     {% if is_granted("ROLE_ADMIN") %}
                         <a href="#">Gérer les utilisateurs</a>
