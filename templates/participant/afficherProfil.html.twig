@@ -8,8 +8,9 @@
         <li>Nom : {{ app.user.nom }}</li>
         <li>Téléphone : {{ app.user.telephone }}</li>
         <li>Email : {{ app.user.email }}</li>
-        <li>Campus : {{ app.user.campus }}</li>
+        <li>Campus : {{ app.user.campus.nom }}</li>
     </ul>
+    <a href="{{ path('participant_update', {'id': app.user.id}) }}">Modifier profil</a>
     <a href="{{ path('accueil') }}">Retour</a>
 {% endblock %}
 

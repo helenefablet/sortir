@@ -19,7 +19,6 @@
                 <div class="mb-3">
                     {% if is_granted("ROLE_ORGANISATEUR") %}
                         <a href="#">Gérer une sortie</a>
-
                     {% endif %}
 
                     {% if is_granted("ROLE_ADMIN") %}
@@ -29,7 +28,7 @@
                     {% endif %}
 
                     <a href="{{ path('accueil') }}">Accueil</a>
-                    <a href="{{ path('participant_update', {'id': app.user.id}) }}">Mon profil</a>
+                    <a href="{{ path('participant_afficherProfil', {'id': app.user.id}) }}">Mon profil</a>
                     <a href="{{ path('app_logout') }}">Se déconnecter</a>
                 </div>
             {% endif %}

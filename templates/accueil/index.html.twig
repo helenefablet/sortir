@@ -9,6 +9,6 @@
         <p>Participant : {{ app.user.prenom }}  {{ app.user.nom }}</p>
     </div>
 
-
+    <a href="{{ path('sortie_new', {'id': app.user.id}) }}">Créer une sortie</a>
 </header>
 {% endblock %}

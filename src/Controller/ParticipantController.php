@@ -19,8 +19,8 @@ class ParticipantController extends AbstractController
      */
 
     public function update(EntityManagerInterface $entityManager,
-    Request $request,
-    Participant $participant): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+                           Request                $request,
+                           Participant            $participant): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
     {
 
         $formulaire = $this->createForm(ParticipantFormType::class, $participant);
@@ -29,11 +29,20 @@ class ParticipantController extends AbstractController
 
         if ($formulaire->isSubmitted() && $formulaire->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-            return $this->redirectToRoute("accueil", compact("formulaire"));
+            return $this->redirectToRoute("accueil");
         }
         return $this->renderForm("participant/modifierProfil.html.twig", compact("formulaire"));
-    } }
+    }
+
+    /**
+     * @Route("/Participant/afficherProfil/{id}", name="participant_afficherProfil")
+     */
+    public function afficherProfil(Participant $participant ){
+
+        return $this->render("participant/afficherProfil.html.twig", compact("participant"));
+
+    }
 
 
-
+    }
 
