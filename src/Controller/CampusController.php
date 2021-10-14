@@ -42,14 +42,6 @@ class CampusController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'campus_show', methods: ['GET'])]
-    public function show(Campus $campus): Response
-    {
-        return $this->render('campus/show.html.twig', [
-            'campus' => $campus,
-        ]);
-    }
-
     #[Route('/{id}/edit', name: 'campus_edit', methods: ['GET','POST'])]
     public function edit(Request $request, Campus $campus): Response
     {

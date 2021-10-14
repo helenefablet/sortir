@@ -23,8 +23,8 @@
 
                     {% if is_granted("ROLE_ADMIN") %}
                         <a href="{{ path('app_register') }}">Gérer les utilisateurs</a>
-                        <a href="#">Gérer les villes</a>
-                        <a href="#">Gérer les campus</a>
+                        <a href="{{ path('ville_index') }}">Gérer les villes</a>
+                        <a href="{{ path('campus_index') }}">Gérer les campus</a>
                     {% endif %}
 
                     <a href="{{ path('accueil') }}">Accueil</a>

@@ -42,14 +42,6 @@ class VilleController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'ville_show', methods: ['GET'])]
-    public function show(Ville $ville): Response
-    {
-        return $this->render('ville/show.html.twig', [
-            'ville' => $ville,
-        ]);
-    }
-
     #[Route('/{id}/edit', name: 'ville_edit', methods: ['GET','POST'])]
     public function edit(Request $request, Ville $ville): Response
     {
