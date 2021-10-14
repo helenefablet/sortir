@@ -10,7 +10,45 @@
         </div>
     </header>
     <main>
+        <table>
+            <thead>
+            <th>
+                <tr>Nom de la sortie</tr>
+                <tr>Date de la sortie</tr>
+                <tr>Clôture</tr>
+                <tr>Inscrits/Places</tr>
+                <tr>Etat</tr>
+                <tr>Inscrit</tr>
+                <tr>Organisateur</tr>
+                <tr>Actions</tr>
+            </th>
+            </thead>
+            <tbody>
+            {% for sortie in sorties %}
 
+                <tr>
+                    <td>{{ sortie.nom }}</td>
+
+                    <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date(format_datetime('short', 'short', locale='fr')) : '' }}</td>
+
+                    <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('d/m/Y') : '' }}</td>
+
+                    <td>{{ sortie.nbInscriptionsMax }}</td>
+
+                    <td>{{ sortie.etat.libelle}}</td>
+
+                    <td>inscrit</td>
+
+                    <td>Organisateur</td>
+
+                    <td>Actions</td>
+                </tr>
+
+
+
+            {% endfor %}
+            </tbody>
+        </table>
 
         <a href="{{ path('sortie_new', {'id': app.user.id}) }}">Créer une sortie</a>
     </main>
