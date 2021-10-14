@@ -6,7 +6,7 @@
     <h1>Créer une Sortie</h1>
 
 
-    {{ form_start(formS) }}
+    {{ form_start(formS,{'attr':{'id': 'formS'}}) }}
     {{ form_row(formS.nom) }}
     {{ form_row(formS.dateHeureDebut) }}
     {{ form_row(formS.dateLimiteInscription) }}
@@ -15,9 +15,30 @@
     {{ form_row(formS.infosSortie) }}
 
     {{ app.user.campus.nom }}
+    {{ form_row(formS.ville) }}
     {{ form_row(formS.lieu) }}
 
     {{ form_end(formS) }}
 
-    <a href="{{ path('sortie_index') }}">back to list</a>
+    <button onclick="enregistrer()" name="newSortie" id="enregistrer" value="0">Enregistrer</button>
+    <button onclick="publier()" name="newSortie" id="publier" value="1">Publier</button>
+    <a href="{{ path('sortie_index') }}">Annuler</a>
+
+
+    <script>
+       function enregistrer(){
+            console.log(0);
+            document.querySelector("#formS").submit();
+        }
+       function publier(){
+            console.log(1);
+            document.querySelector("#formS").submit();
+        }
+
+
+    </script>
+
+
 {% endblock %}
+
+

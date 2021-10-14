@@ -6,8 +6,10 @@ use App\Entity\Campus;
 use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Entity\Ville;
+
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -20,12 +22,12 @@ class SortieType extends AbstractType
 
                 "label"=> "Nom de la sortie :"
             ])
-            ->add('dateHeureDebut',null,[
-
+            ->add('dateHeureDebut',DateType::class, [
+                'widget' => 'choice',
                 "label"=> "Date et heure de la sortie :"
             ])
-            ->add('dateLimiteInscription',null,[
-
+            ->add('dateLimiteInscription',DateType::class, [
+                'widget' => 'choice',
                 "label"=> "Date limite d'inscription :"
             ])
             ->add('nbInscriptionsMax',null,[
@@ -53,7 +55,8 @@ class SortieType extends AbstractType
             ->add('lieu',EntityType::class,[
                 "class"=> Lieu::class,
                 "label"=> "Lieu :",
-                "choice_label"=> "nom"
+                "choice_label"=> "nom",
+                "mapped"=> false
             ])
         ;
     }

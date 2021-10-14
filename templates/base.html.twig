@@ -22,7 +22,7 @@
                     {% endif %}
 
                     {% if is_granted("ROLE_ADMIN") %}
-                        <a href="#">Gérer les utilisateurs</a>
+                        <a href="{{ path('app_register') }}">Gérer les utilisateurs</a>
                         <a href="#">Gérer les villes</a>
                         <a href="#">Gérer les campus</a>
                     {% endif %}

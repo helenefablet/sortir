@@ -10,9 +10,9 @@
 
 
 
-    <label for="inputEmailOrPseudo">Email ou pseudo</label>
+    <label for="inputEmailOrPseudo">Identifiant:</label>
     <input type="text" value="{{ last_username }}" name="email_or_pseudo" id="email_or_pseudo" class="form-control" autocomplete="email" required autofocus>
-    <label for="inputPassword">Password</label>
+    <label for="inputPassword">Mot de passe:</label>
     <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
 
     <input type="hidden" name="_csrf_token"
@@ -32,6 +32,6 @@
         Connexion
     </button>
 
-    <a href="{{ path('app_forgot_password_request') }}">mot de passe oublié ?</a>
+    <a href="{{ path('app_forgot_password_request') }}">Mot de passe oublié ?</a>
 </form>
 {% endblock %}

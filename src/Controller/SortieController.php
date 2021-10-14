@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Participant;
 use App\Entity\Sortie;
 use App\Form\SortieType;
+use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,21 +24,36 @@ class SortieController extends AbstractController
     }
 
     #[Route('/new', name: 'sortie_new', methods: ['GET','POST'])]
-    public function new(Request $request): Response
+    public function new(Request $request, EtatRepository $etatRepository): Response
     {
        //dd('a');
         $sortie = new Sortie();
         $form = $this->createForm(SortieType::class, $sortie);
+
         $form->handleRequest($request);
+
 
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $sortie->setCampus($this->getUser()->getCampus());
+            $sortie->setLieu($form->get("lieu")->getData());
+
+            $newSortie = $request->get("newSortie");
+            if ($newSortie==0){
+                $etat = $etatRepository->findOneBy(["id"=>"1"]);
+                $sortie->setEtat($etat);
+
+            }elseif ($newSortie==1){
+                $etat = $etatRepository->findOneBy(["id"=>"2"]);
+                $sortie->setEtat($etat);
+
+            }
+
             $entityManager->persist($sortie);
             $entityManager->flush();
 
-            return $this->redirectToRoute('sortie_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('accueil', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('sortie/new.html.twig',
@@ -49,7 +65,7 @@ class SortieController extends AbstractController
     #[Route('/{id}', name: 'sortie_show', methods: ['GET'])]
     public function show(Sortie $sortie): Response
     {
-        return $this->render('sortie/show.html.twig', [
+        return $this->render('accueil/index.html.twig', [
             'sortie' => $sortie,
         ]);
     }
@@ -63,10 +79,10 @@ class SortieController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('sortie_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('accueil', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('sortie/edit.html.twig', [
+        return $this->renderForm('accueil/index.html.twig', [
             'sortie' => $sortie,
             'form' => $form,
         ]);
@@ -81,6 +97,6 @@ class SortieController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('sortie_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('accueil', [], Response::HTTP_SEE_OTHER);
     }
 }
