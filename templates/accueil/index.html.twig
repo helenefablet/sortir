@@ -29,7 +29,7 @@
                 <tr>
                     <td>{{ sortie.nom }}</td>
 
-                    <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date(format_datetime('short', 'short', locale='fr')) : '' }}</td>
+                    <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|format_datetime('short', 'short', locale='fr') : '' }}</td>
 
                     <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('d/m/Y') : '' }}</td>
 
