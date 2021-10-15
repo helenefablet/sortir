@@ -67,19 +67,21 @@ class Sortie
     private $lieu;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Participant::class, inversedBy="sorties")
+     * @ORM\ManyToOne(targetEntity=Participant::class, inversedBy="orgSorties")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $organisateur;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Participant::class, inversedBy="sorties")
      */
     private $participants;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Participant::class, mappedBy="est_inscrit")
-     */
-    private $sorties;
-
     public function __construct()
     {
-        $this->sorties = new ArrayCollection();
+        $this->participants = new ArrayCollection();
     }
+
 
     public function getId(): ?int
     {
@@ -194,14 +196,14 @@ class Sortie
         return $this;
     }
 
-    public function getParticipants(): ?Participant
+    public function getOrganisateur(): ?Participant
     {
-        return $this->participants;
+        return $this->organisateur;
     }
 
-    public function setParticipants(?Participant $participants): self
+    public function setOrganisateur(?Participant $organisateur): self
     {
-        $this->participants = $participants;
+        $this->organisateur = $organisateur;
 
         return $this;
     }
@@ -209,27 +211,25 @@ class Sortie
     /**
      * @return Collection|Participant[]
      */
-    public function getSorties(): Collection
+    public function getParticipants(): Collection
     {
-        return $this->sorties;
+        return $this->participants;
     }
 
-    public function addSorty(Participant $sorty): self
+    public function addParticipant(Participant $participant): self
     {
-        if (!$this->sorties->contains($sorty)) {
-            $this->sorties[] = $sorty;
-            $sorty->addEstInscrit($this);
+        if (!$this->participants->contains($participant)) {
+            $this->participants[] = $participant;
         }
 
         return $this;
     }
 
-    public function removeSorty(Participant $sorty): self
+    public function removeParticipant(Participant $participant): self
     {
-        if ($this->sorties->removeElement($sorty)) {
-            $sorty->removeEstInscrit($this);
-        }
+        $this->participants->removeElement($participant);
 
         return $this;
     }
+
 }

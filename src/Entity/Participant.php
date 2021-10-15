@@ -70,25 +70,30 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $campus;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="participants")
-     */
-    private $sorties;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Sortie::class, inversedBy="sorties")
-     */
-    private $est_inscrit;
+
+
 
     /**
      * @ORM\Column(type="string", length=255, unique=true, nullable=true)
      */
     private $pseudo;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="organisateur")
+     */
+    private $orgSorties;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Sortie::class, mappedBy="participants")
+     */
+    private $sorties;
+
     public function __construct()
     {
         $this->sorties = new ArrayCollection();
         $this->est_inscrit = new ArrayCollection();
+        $this->orgSorties = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -252,6 +257,52 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+
+
+
+
+    public function getPseudo(): ?string
+    {
+        return $this->pseudo;
+    }
+
+    public function setPseudo(string $pseudo): self
+    {
+        $this->pseudo = $pseudo;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Sortie[]
+     */
+    public function getOrgSorties(): Collection
+    {
+        return $this->orgSorties;
+    }
+
+    public function addOrgSorty(Sortie $orgSorty): self
+    {
+        if (!$this->orgSorties->contains($orgSorty)) {
+            $this->orgSorties[] = $orgSorty;
+            $orgSorty->setOrganisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrgSorty(Sortie $orgSorty): self
+    {
+        if ($this->orgSorties->removeElement($orgSorty)) {
+            // set the owning side to null (unless already changed)
+            if ($orgSorty->getOrganisateur() === $this) {
+                $orgSorty->setOrganisateur(null);
+            }
+        }
+
+        return $this;
+    }
+
     /**
      * @return Collection|Sortie[]
      */
@@ -264,7 +315,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->sorties->contains($sorty)) {
             $this->sorties[] = $sorty;
-            $sorty->setParticipants($this);
+            $sorty->addParticipant($this);
         }
 
         return $this;
@@ -273,47 +324,8 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeSorty(Sortie $sorty): self
     {
         if ($this->sorties->removeElement($sorty)) {
-            // set the owning side to null (unless already changed)
-            if ($sorty->getParticipants() === $this) {
-                $sorty->setParticipants(null);
-            }
+            $sorty->removeParticipant($this);
         }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Sortie[]
-     */
-    public function getEstInscrit(): Collection
-    {
-        return $this->est_inscrit;
-    }
-
-    public function addEstInscrit(Sortie $estInscrit): self
-    {
-        if (!$this->est_inscrit->contains($estInscrit)) {
-            $this->est_inscrit[] = $estInscrit;
-        }
-
-        return $this;
-    }
-
-    public function removeEstInscrit(Sortie $estInscrit): self
-    {
-        $this->est_inscrit->removeElement($estInscrit);
-
-        return $this;
-    }
-
-    public function getPseudo(): ?string
-    {
-        return $this->pseudo;
-    }
-
-    public function setPseudo(string $pseudo): self
-    {
-        $this->pseudo = $pseudo;
 
         return $this;
     }

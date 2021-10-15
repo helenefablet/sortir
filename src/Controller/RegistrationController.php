@@ -20,6 +20,13 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            //ROLE_ADMIN
+            if ($user->getAdministrateur() == 1){
+                $user->setRoles(['ROLE_ADMIN']);
+            }else{
+                $user->setRoles(['ROLE_USER']);
+            }
+
             // encode the plain password
             $user->setPassword(
             $userPasswordHasherInterface->hashPassword(
@@ -30,8 +37,7 @@ class RegistrationController extends AbstractController
 
             $entityManager = $this->getDoctrine()->getManager();
             $user ->setActif(true);
-            $user ->setRoles(["ROLE_USER"]);
-            $user ->setAdministrateur(false);
+
 
 
             $entityManager->persist($user);

@@ -37,16 +37,21 @@ class SortieController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $sortie->setCampus($this->getUser()->getCampus());
+            $sortie->setOrganisateur($this->getUser());
             $sortie->setLieu($form->get("lieu")->getData());
+
 
             $newSortie = $request->get("newSortie");
             if ($newSortie==0){
                 $etat = $etatRepository->findOneBy(["id"=>"1"]);
+
                 $sortie->setEtat($etat);
+
 
             }elseif ($newSortie==1){
                 $etat = $etatRepository->findOneBy(["id"=>"2"]);
                 $sortie->setEtat($etat);
+
 
             }
 

@@ -52,6 +52,8 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
+            ->add('administrateur')
+            ->add('actif')
             ->add('campus', EntityType::class, [
                 'class' => Campus::class,
                 'choice_label' => "nom"

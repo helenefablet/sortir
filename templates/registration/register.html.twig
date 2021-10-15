@@ -13,10 +13,15 @@
         {{ form_row(registrationForm.password.first) }}
         {{ form_row(registrationForm.password.second) }}
 
+        {{ form_row(registrationForm.administrateur, {
+            label: 'Administrateur:'
+                }) }}
+    {{ form_row(registrationForm.campus) }}
+        {{ form_row(registrationForm.actif, {
+        label: 'Actif:'
+                 }) }}
 
 
-
-
-    <button type="submit" class="btn">Register</button>
+    <button type="submit" class="btn">Créer profil</button>
     {{ form_end(registrationForm) }}
 {% endblock %}

@@ -17,6 +17,7 @@
     {{ app.user.campus.nom }}
     {{ form_row(formS.ville) }}
     {{ form_row(formS.lieu) }}
+    <a href="{{ path('lieu_new') }}"><img src="{{ asset('img/bouton_plus.png') }}" alt=""></a>
 
     {{ form_end(formS) }}
 

@@ -33,7 +33,7 @@ class LieuController extends AbstractController
             $entityManager->persist($lieu);
             $entityManager->flush();
 
-            return $this->redirectToRoute('lieu_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('lieu_new', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('lieu/new.html.twig', [

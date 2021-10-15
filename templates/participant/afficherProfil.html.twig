@@ -4,11 +4,11 @@
 <h2>{{ app.user.pseudo }}</h2>
 
     <ul>
-        <li>Prénom : {{ app.user.prenom }}</li>
-        <li>Nom : {{ app.user.nom }}</li>
-        <li>Téléphone : {{ app.user.telephone }}</li>
-        <li>Email : {{ app.user.email }}</li>
-        <li>Campus : {{ app.user.campus.nom }}</li>
+        <li>Prénom : {{ participant.prenom }}</li>
+        <li>Nom : {{ participant.nom }}</li>
+        <li>Téléphone : {{ participant.telephone }}</li>
+        <li>Email : {{ participant.email }}</li>
+        <li>Campus : {{ participant.campus.nom }}</li>
     </ul>
     <a href="{{ path('participant_update', {'id': app.user.id}) }}">Modifier profil</a>
     <a href="{{ path('accueil') }}">Retour</a>
