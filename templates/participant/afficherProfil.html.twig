@@ -10,7 +10,9 @@
         <li>Email : {{ participant.email }}</li>
         <li>Campus : {{ participant.campus.nom }}</li>
     </ul>
-    <a href="{{ path('participant_update', {'id': app.user.id}) }}">Modifier profil</a>
+    {% if app.user.id == participant.id %}
+        <a href="{{ path('participant_update', {'id': app.user.id}) }}">Modifier profil</a>
+    {% endif %}
     <a href="{{ path('accueil') }}">Retour</a>
 {% endblock %}
 

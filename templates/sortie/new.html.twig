@@ -37,9 +37,62 @@
         }
 
 
+
+        // PARTIE VILLE / LIEUX
+           let villes =[];
+
+           function changeLieux()
+           {
+               let lieuId = document.querySelector('#lieu').value;
+               afficherVilles(lieuxId);
+           }
+           //-----------------------------------
+           function afficherVilles(lieuxId)
+           {
+               let selectVille = document.querySelector('#ville');
+               selectVille.innerHTML ='';
+               // je parcours les villes pour trouver le bon lieu
+               for (let v of villes)
+           {
+               if(lieuxId == v.lieux){
+
+               let option = document.createElement('option'); //<option></option>
+               option.setAttribute('value',v.id); //<option value="42"></option>
+               option.textContent = v.nom; //<option value="42"> rouge</option>
+               selectVille.appendChild(option);
+
+           }
+           }
+           }
+           //-----------------------------------
+           function afficherLieux(tab)
+           {
+               for (l of tab)
+           {
+               let option = document.createElement('option');
+               option.setAttribute('value',l.id);
+               option.textContent = l.nom;
+               document.querySelector('#lieu').appendChild(option);
+
+           }
+           }
+           //-----------------------------------
+
+
+           let url ="sortie/newLiaison/";
+           fetch(url)
+                .then( response => response.json())
+                .then(
+                    objet => {
+                        console.log(objet);
+                        afficherLieux(objet.lieux);
+
+                        let lieuxId = objet.lieux[0].id;
+                        console.log(lieuxId);
+                        villes = objet.villes;
+                        afficherVilles(lieuxId);
+       });
     </script>
-
-
 {% endblock %}
 
 

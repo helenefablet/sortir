@@ -6,7 +6,10 @@ use App\Entity\Participant;
 use App\Entity\Sortie;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
+use App\Repository\LieuRepository;
 use App\Repository\SortieRepository;
+use App\Repository\VilleRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,10 +26,65 @@ class SortieController extends AbstractController
         ]);
     }
 
+
+    /**
+     * @Route("/sortie/afficher", name="afficher")
+     */
+    public function ajouterSortie(Request $request, EntityManagerInterface $em, VilleRepository $villeRepository ){
+            $s = new Sortie();
+            $formS = $this->createForm(SortieType::class, $s);
+            $formS->handleRequest($request);
+            if ($formS->isSubmitted()) {
+                $villeId = $request->get('ville');
+                $ville = $villeRepository->find($villeId);
+                $s->setVille($ville);
+                $em->persist($s);
+                $em->flush($s);
+                return $this->redirectToRoute('accueil');
+            }
+            return $this->render('accueil/index.html.twig', [
+                'formS' => $formS->createView(),
+            ]);
+    }
+
+
+    // Fonction api tableau lieux et tableau villes
+    /**
+     * @Route ("/sortie/newLiaison/", name="niewLiaison")
+     */
+    public function api (LieuRepository $repoL, VilleRepository $repoV) : Response
+    {
+        $lieux = $repoL->findAll();
+        $tab_lieux = [];
+        foreach ($lieux as $l)
+        {
+            $info_l['id'] = $l->getId();
+            $info_l['nom'] = $l->getNom();
+            $tab_lieux[] = $info_l;
+        }
+
+        $villes = $repoV->findAll();
+        $tab_Villes = [];
+        foreach ($villes as $v)
+        {
+            $info_v['id'] = $v->getId();
+            $info_v['nom'] = $v->getNom();
+            $info_v['lieux']  = $v->getLieux()->getId();
+            $tab_Villes[] = $info_v;
+        }
+        $tab['lieux'] = $tab_lieux;
+        $tab['villes'] = $tab_Villes;
+
+
+        return $this->json($tab);
+    }
+
+
+
     #[Route('/new', name: 'sortie_new', methods: ['GET','POST'])]
     public function new(Request $request, EtatRepository $etatRepository): Response
     {
-       //dd('a');
+
         $sortie = new Sortie();
         $form = $this->createForm(SortieType::class, $sortie);
 
@@ -102,6 +160,8 @@ class SortieController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('accueil', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute("accueil", [
+
+        ], Response::HTTP_SEE_OTHER);
     }
 }

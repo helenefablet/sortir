@@ -68,11 +68,21 @@
                        <td><a href="{{ path('participant_afficherProfil', {'id': sortie.organisateur.id}) }}">{{sortie.organisateur.pseudo }} </a></td>
                    {% endif %}
 
-                    <td>Actions</td>
+                    <td>
+                        {% if app.user.id == sortie.organisateur.id %}
+                            <a href="#">Modifier</a>
+                            <a href="#">Publier</a>
+                            <a href="#">Annuler</a>
+                        {% endif %}
+                        <a href="#">Afficher</a>
+                        <a href="#">Se désister</a>
+                        <a href="#">S'inscrire</a>
+
+
+                    </td>
                 </tr>
-
-
-
+            {% else %}
+                <p>Aucune sortie</p>
             {% endfor %}
             </tbody>
         </table>
