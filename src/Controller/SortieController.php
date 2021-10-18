@@ -18,17 +18,8 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/sortie')]
 class SortieController extends AbstractController
 {
-    #[Route('/', name: 'sortie_index', methods: ['GET'])]
-    public function index(SortieRepository $sortieRepository): Response
-    {
-        return $this->render('sortie/index.html.twig', [
-            'sorties' => $sortieRepository->findAll(),
-        ]);
-    }
-
-
     /**
-     * @Route("/sortie/afficher", name="afficher")
+     * @Route("/sortie/ajouterSortie", name="_ajouterSortie")
      */
     public function ajouterSortie(Request $request, EntityManagerInterface $em, VilleRepository $villeRepository ){
             $s = new Sortie();
@@ -125,10 +116,11 @@ class SortieController extends AbstractController
             ]);
     }
 
-    #[Route('/{id}', name: 'sortie_show', methods: ['GET'])]
+
+    #[Route('afficher/{id}', name: 'sortie_show', methods: ['GET'])]
     public function show(Sortie $sortie): Response
     {
-        return $this->render('accueil/index.html.twig', [
+        return $this->render('sortie/show.html.twig', [
             'sortie' => $sortie,
         ]);
     }
@@ -145,21 +137,47 @@ class SortieController extends AbstractController
             return $this->redirectToRoute('accueil', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('accueil/index.html.twig', [
+        return $this->renderForm('sortie/edit.html.twig', [
             'sortie' => $sortie,
             'form' => $form,
         ]);
     }
 
-    #[Route('/{id}', name: 'sortie_delete', methods: ['POST'])]
+    #[Route('/delete/{id}', name: 'sortie_delete', methods: ['GET','POST'])]
     public function delete(Request $request, Sortie $sortie): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$sortie->getId(), $request->request->get('_token'))) {
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($sortie);
             $entityManager->flush();
-        }
 
+
+        return $this->redirectToRoute("accueil", [
+
+        ], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
+     * @Route ("/sinscrire/{id}", name="_sinscrire")
+     */
+    public function sinscrire(Sortie $sortie){
+
+        $user = $this->getUser();
+        $sortie->addParticipant($user);
+        $this->getDoctrine()->getManager()->flush();
+        return $this->redirectToRoute("accueil", [
+
+        ], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
+     * @Route ("/seDesister/{id}", name="_seDesister")
+     */
+    public function seDesister(Sortie $sortie){
+
+        $user = $this->getUser();
+        $sortie->removeParticipant($user);
+        $this->getDoctrine()->getManager()->flush();
         return $this->redirectToRoute("accueil", [
 
         ], Response::HTTP_SEE_OTHER);

@@ -14,11 +14,9 @@ class AccueilController extends AbstractController
     {
         $sorties = $sortieRepository->findAll();
 
-
-
         return $this->render('accueil/index.html.twig', [
             'controller_name' => 'AccueilController',
-            "sorties" => $sorties
+            "sorties" => $sorties,
         ]);
     }
 }

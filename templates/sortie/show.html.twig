@@ -36,12 +36,16 @@
             <th>InfosSortie</th>
             <td>{{ sortie.infosSortie }}</td>
         </tr>
+        <tr>
+            <th>NbreParticipantsInscrits</th>
+            <td>{{ sortie.participants.count }}</td>
+        </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('sortie_index') }}">back to list</a>
+    <a href="#">back to list</a>
 
     <a href="{{ path('sortie_edit', {'id': sortie.id}) }}">edit</a>
 
-    {{ include('sortie/_delete_form.html.twig') }}
+
 {% endblock %}

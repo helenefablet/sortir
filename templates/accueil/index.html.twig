@@ -31,6 +31,7 @@
                 <input type="checkbox" name="passees">Sorties passées<br>
             </div>
         </div>
+        <hr>
 
 
         <table>
@@ -56,11 +57,15 @@
 
                     <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('d/m/Y') : '' }}</td>
 
-                    <td>{{ sortie.nbInscriptionsMax }}</td>
+                    <td>{{ sortie.participants.count }} / {{ sortie.nbInscriptionsMax }}</td>
 
                     <td>{{ sortie.etat.libelle}}</td>
 
-                    <td>inscrit</td>
+                    <td>
+                        {% if sortie.participants.contains(app.user) %}
+                            <p>X</p>
+                        {% endif %}
+                    </td>
 
                    {% if not sortie.organisateur.pseudo %}
                        <td><a href="{{ path('participant_afficherProfil', {'id': sortie.organisateur.id}) }}">{{sortie.organisateur.prenom }} {{ sortie.organisateur.nom | slice(0,1)~"." }} </a></td>
@@ -70,13 +75,14 @@
 
                     <td>
                         {% if app.user.id == sortie.organisateur.id %}
-                            <a href="#">Modifier</a>
+                            <a href="{{ path('sortie_edit', {'id': sortie.id}) }}">Modifier</a>
                             <a href="#">Publier</a>
-                            <a href="#">Annuler</a>
+                            <a href="{{ path('sortie_delete', {'id': sortie.id}) }}">Annuler</a>
                         {% endif %}
-                        <a href="#">Afficher</a>
-                        <a href="#">Se désister</a>
-                        <a href="#">S'inscrire</a>
+                        <a href="{{ path('sortie_show', {'id': sortie.id}) }}">Afficher</a>
+
+                        <a href="{{ path('_seDesister', { id : sortie.id}) }}">Se désister</a>
+                        <a href="{{ path('_sinscrire', { id: sortie.id}) }}">S'inscrire</a>
 
 
                     </td>
