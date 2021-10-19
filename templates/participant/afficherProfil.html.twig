@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<h2>{{ app.user.pseudo }}</h2>
 
     <ul>
         <li>Prénom : {{ participant.prenom }}</li>
         <li>Nom : {{ participant.nom }}</li>
+        <li>Pseudo : {{ participant.pseudo }}</li>
         <li>Téléphone : {{ participant.telephone }}</li>
         <li>Email : {{ participant.email }}</li>
         <li>Campus : {{ participant.campus.nom }}</li>

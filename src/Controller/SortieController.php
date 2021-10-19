@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints\DateTime;
 
-#[Route('/sortie')]
+#[Route('/profile/sortie')]
 class SortieController extends AbstractController
 {
     /**
@@ -92,13 +92,12 @@ class SortieController extends AbstractController
 
 
             $newSortie = $request->get("newSortie");
-            //Etat Créée
+            //Etat Créée(avec le bouton Enregistrer)
             if ($newSortie==0){
                 $etat = $etatRepository->findOneBy(["id"=>"1"]);
-                dd($etat);
                 $sortie->setEtat($etat);
 
-            //Etat Ouverte
+            //Etat Ouverte(avec le bouton Publier)
             }elseif ($newSortie==1){
                 $etat = $etatRepository->findOneBy(["id"=>"2"]);
                 $sortie->setEtat($etat);
