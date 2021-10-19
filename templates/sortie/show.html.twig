@@ -43,9 +43,9 @@
         </tbody>
     </table>
 
-    <a href="#">back to list</a>
+    <a href="{{ path('accueil') }}">Retour</a>
 
-    <a href="{{ path('sortie_edit', {'id': sortie.id}) }}">edit</a>
+    <a href="{{ path('sortie_edit', {'id': sortie.id}) }}">Modifier</a>
 
 
 {% endblock %}
