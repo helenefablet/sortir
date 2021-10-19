@@ -44,6 +44,17 @@ class ParticipantController extends AbstractController
     }
 
 
+    /**
+     * @Route ("/Participant/listeParticipants", name="participant_listeParticipants")
+     */
+    public function listeParticipants(ParticipantRepository $participantRepository): \Symfony\Component\HttpFoundation\Response
+    {
+        $listeParticipants = $participantRepository->findAll();
+        return $this->render('participant/listeParticipants.html.twig', [
+            'controller_name' => 'ParticipantController',
+            "listeParticipants" => $listeParticipants,
+        ]);
+    }
 
     }
 

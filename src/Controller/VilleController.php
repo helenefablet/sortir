@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/ville')]
 class VilleController extends AbstractController
 {
-    #[Route('/', name: 'ville_index', methods: ['GET'])]
+    #[Route('/', name: 'ville_index')]
     public function index(VilleRepository $villeRepository): Response
     {
         return $this->render('ville/index.html.twig', [
@@ -21,7 +21,7 @@ class VilleController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'ville_new', methods: ['GET','POST'])]
+    #[Route('/new', name: 'ville_new')]
     public function new(Request $request): Response
     {
         $ville = new Ville();
@@ -42,7 +42,7 @@ class VilleController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'ville_edit', methods: ['GET','POST'])]
+    #[Route('/{id}/edit', name: 'ville_edit')]
     public function edit(Request $request, Ville $ville): Response
     {
         $form = $this->createForm(VilleType::class, $ville);
@@ -60,14 +60,14 @@ class VilleController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'ville_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'ville_delete')]
     public function delete(Request $request, Ville $ville): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$ville->getId(), $request->request->get('_token'))) {
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($ville);
             $entityManager->flush();
-        }
+
 
         return $this->redirectToRoute('ville_index', [], Response::HTTP_SEE_OTHER);
     }

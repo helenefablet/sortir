@@ -14,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 #[Route('/sortie')]
 class SortieController extends AbstractController
@@ -72,7 +73,7 @@ class SortieController extends AbstractController
 
 
 
-    #[Route('/new', name: 'sortie_new', methods: ['GET','POST'])]
+    #[Route('/new', name: 'sortie_new')]
     public function new(Request $request, EtatRepository $etatRepository): Response
     {
 
@@ -91,12 +92,13 @@ class SortieController extends AbstractController
 
 
             $newSortie = $request->get("newSortie");
+            //Etat Créée
             if ($newSortie==0){
                 $etat = $etatRepository->findOneBy(["id"=>"1"]);
-
+                dd($etat);
                 $sortie->setEtat($etat);
 
-
+            //Etat Ouverte
             }elseif ($newSortie==1){
                 $etat = $etatRepository->findOneBy(["id"=>"2"]);
                 $sortie->setEtat($etat);
@@ -117,7 +119,7 @@ class SortieController extends AbstractController
     }
 
 
-    #[Route('afficher/{id}', name: 'sortie_show', methods: ['GET'])]
+    #[Route('afficher/{id}', name: 'sortie_show')]
     public function show(Sortie $sortie): Response
     {
         return $this->render('sortie/show.html.twig', [
@@ -125,7 +127,7 @@ class SortieController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'sortie_edit', methods: ['GET','POST'])]
+    #[Route('/{id}/edit', name: 'sortie_edit')]
     public function edit(Request $request, Sortie $sortie): Response
     {
         $form = $this->createForm(SortieType::class, $sortie);
@@ -143,7 +145,7 @@ class SortieController extends AbstractController
         ]);
     }
 
-    #[Route('/delete/{id}', name: 'sortie_delete', methods: ['GET','POST'])]
+    #[Route('/delete/{id}', name: 'sortie_delete')]
     public function delete(Request $request, Sortie $sortie): Response
     {
 
@@ -162,12 +164,27 @@ class SortieController extends AbstractController
      */
     public function sinscrire(Sortie $sortie){
 
-        $user = $this->getUser();
-        $sortie->addParticipant($user);
-        $this->getDoctrine()->getManager()->flush();
-        return $this->redirectToRoute("accueil", [
 
-        ], Response::HTTP_SEE_OTHER);
+        $currentDate = new \DateTime('now');
+        $dateLimite= $sortie->getDateLimiteInscription();
+        $nbInscritMax = $sortie->getNbInscriptionsMax();
+        $nbInscrit = $sortie->getParticipants()->count();
+
+
+        if (( $dateLimite >= $currentDate) &&
+                ( $nbInscritMax > $nbInscrit)){
+            $user = $this->getUser();
+            $sortie->addParticipant($user);
+            $this->getDoctrine()->getManager()->flush();
+            return $this->redirectToRoute("accueil", [
+
+            ], Response::HTTP_SEE_OTHER);
+
+        }else
+            return $this->redirectToRoute("accueil", [
+                'message'=>'Le nombre de participants maximum ou la date limite a été atteint !'
+
+            ], Response::HTTP_SEE_OTHER);
     }
 
     /**

@@ -15,9 +15,9 @@ security:
                 class: App\Entity\Participant
                 property: email
 
-    role_hierarchy:
-        ROLE_PARTICIPANT: ROLE_USER
-        ROLE_ORGANISATEUR: ROLE_PARTICIPANT
+    # role_hierarchy:
+    #    ROLE_PARTICIPANT: ROLE_USER
+    #    ROLE_ORGANISATEUR: ROLE_PARTICIPANT
 
 
     firewalls:

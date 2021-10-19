@@ -38,6 +38,7 @@
             <thead>
             <th>
                 <tr>Nom de la sortie</tr>
+                <tr>Lieu - Ville</tr>
                 <tr>Date de la sortie</tr>
                 <tr>Clôture</tr>
                 <tr>Inscrits/Places</tr>
@@ -52,6 +53,8 @@
 
                 <tr>
                     <td>{{ sortie.nom }}</td>
+
+                    <td>{{ sortie.lieu.nom }} - {{ sortie.lieu.ville.nom }}</td>
 
                     <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|format_datetime('short', 'short', locale='fr') : '' }}</td>
 
@@ -74,15 +77,20 @@
                    {% endif %}
 
                     <td>
-                        {% if app.user.id == sortie.organisateur.id %}
+                        {% if (app.user.id == sortie.organisateur.id) or ( is_granted('ROLE_ADMIN')) %}
                             <a href="{{ path('sortie_edit', {'id': sortie.id}) }}">Modifier</a>
                             <a href="#">Publier</a>
                             <a href="{{ path('sortie_delete', {'id': sortie.id}) }}">Annuler</a>
                         {% endif %}
                         <a href="{{ path('sortie_show', {'id': sortie.id}) }}">Afficher</a>
 
-                        <a href="{{ path('_seDesister', { id : sortie.id}) }}">Se désister</a>
-                        <a href="{{ path('_sinscrire', { id: sortie.id}) }}">S'inscrire</a>
+                        {% if sortie.participants.contains(app.user) %}
+                            <a href="{{ path('_seDesister', { id : sortie.id}) }}">Se désister</a>
+                        {% else %}
+                            <a href="{{ path('_sinscrire', { id: sortie.id}) }}">S'inscrire</a>
+                        {% endif %}
+
+
 
 
                     </td>

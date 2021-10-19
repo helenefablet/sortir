@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/campus')]
+#[Route('/admin/campus')]
 class CampusController extends AbstractController
 {
     #[Route('/', name: 'campus_index', methods: ['GET'])]
@@ -60,14 +60,14 @@ class CampusController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'campus_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'campus_delete')]
     public function delete(Request $request, Campus $campus): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$campus->getId(), $request->request->get('_token'))) {
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($campus);
             $entityManager->flush();
-        }
+
 
         return $this->redirectToRoute('campus_index', [], Response::HTTP_SEE_OTHER);
     }
