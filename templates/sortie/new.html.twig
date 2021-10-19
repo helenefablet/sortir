@@ -17,14 +17,14 @@
     {{ app.user.campus.nom }}
     {{ form_row(formS.ville) }}
     {{ form_row(formS.lieu) }}
-    <a href="{{ path('lieu_new') }}"><img src="{{ asset('img/bouton_plus.png') }}" alt=""></a>
+
+    <a href="{{ path('lieu_new') }}"><img src="{{ asset('img/bouton_plus.png') }}" alt=""></a> {# TODO Qu'est ce que c'est? #}
 
     {{ form_end(formS) }}
 
     <button onclick="enregistrer()" name="newSortie" id="enregistrer" value="0">Enregistrer</button>
     <button onclick="publier()" name="newSortie" id="publier" value="1">Publier</button>
     {#  <a href="{{ path('sortie_index') }}">Annuler</a> #}
-
 
     <script>
        function enregistrer(){
