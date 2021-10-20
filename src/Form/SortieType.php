@@ -47,20 +47,6 @@ class SortieType extends AbstractType
 
                 "label"=> "Description et infos :"
             ])
-
-
-            ->add('ville',EntityType::class,[
-                "class"=> Ville::class,
-                "label"=> "Ville :",
-                "choice_label"=> "nom",
-                "mapped"=> false
-            ])
-            ->add('lieu',EntityType::class,[
-                "class"=> Lieu::class,
-                "label"=> "Lieu :",
-                "choice_label"=> "nom",
-                "mapped"=> false
-            ])
         ;
     }
 

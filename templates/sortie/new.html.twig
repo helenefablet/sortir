@@ -15,8 +15,18 @@
     {{ form_row(formS.infosSortie) }}
 
     {{ app.user.campus.nom }}
-    {{ form_row(formS.ville) }}
-    {{ form_row(formS.lieu) }}
+
+    <label class="form-label"  for="ville">Ville</label>
+    <select class="form-control" name="ville" id="ville" onchange="changeVilles()">
+    </select>
+
+    <label class ="form-label"  for="lieu">Lieu</label>
+    <select class="form-control" name="lieu" id="lieu" >
+        // ici on alimente
+    </select>
+
+    {#{{ form_row(formS.ville) }}
+    {{ form_row(formS.lieu) }}#}
 
     <a href="{{ path('lieu_new') }}"><img src="{{ asset('img/bouton_plus.png') }}" alt=""></a> {# TODO Qu'est ce que c'est? #}
 
@@ -39,58 +49,70 @@
 
 
         // PARTIE VILLE / LIEUX
-           let villes =[];
 
-           function changeLieux()
+            let lieux =[];
+           function changeVilles()
            {
-               let lieuId = document.querySelector('#lieu').value;
-               afficherVilles(lieuxId);
+                //je recupere l'id de la ville a partir du select
+               let villeId = document.querySelector('#ville').value;
+               //j affiche lieu par rapport a l id de la ville
+               afficherLieux(villeId);
            }
            //-----------------------------------
-           function afficherVilles(lieuxId)
+           function afficherLieux(villeId)
            {
-               let selectVille = document.querySelector('#ville');
-               selectVille.innerHTML ='';
-               // je parcours les villes pour trouver le bon lieu
-               for (let v of villes)
+               //je selectionne le lieu a partir du select
+               let selectLieux = document.querySelector('#lieu');
+               //je vide le select des valeur precedentes
+               selectLieux.innerHTML ='';
+               // je parcours les lieux pour trouver la bonne ville
+               for (let l of lieux)
            {
-               if(lieuxId == v.lieux){
-
-               let option = document.createElement('option'); //<option></option>
-               option.setAttribute('value',v.id); //<option value="42"></option>
-               option.textContent = v.nom; //<option value="42"> rouge</option>
-               selectVille.appendChild(option);
-
-           }
-           }
-           }
-           //-----------------------------------
-           function afficherLieux(tab)
-           {
-               for (l of tab)
-           {
+                //je compare l'id de la ville recupérer par le select et l'idVille dans la table lieu
+               if(villeId == l.ville){
+                   //je créer la balise option
                let option = document.createElement('option');
+               //je lui applique la valeur lieu.id
                option.setAttribute('value',l.id);
+               //je lui dit d'afficher le lieu.nom
                option.textContent = l.nom;
-               document.querySelector('#lieu').appendChild(option);
+               //j applique au select la nouvelle balise option
+               selectLieux.appendChild(option);
+
+           }
+           }
+           //-----------------------------------
+           function afficherVille(tab)
+           {
+               //je parcours les ville du tableau
+               for (v of tab)
+           {
+                //je créer la balise option
+               let option = document.createElement('option');
+               //je lui applique la valeur ville.id
+               option.setAttribute('value',v.id);
+               //je lui dit d'afficher ville.nom dans la balise
+               option.textContent = v.nom;
+               //j applique au select la nouvelle balise option
+               document.querySelector('#ville').appendChild(option);
+           }
+           //-----------------------------------
 
            }
            }
            //-----------------------------------
 
 
-           let url ="sortie/newLiaison/";
+           let url ="newLiaison";
            fetch(url)
                 .then( response => response.json())
                 .then(
+                    //je créer un objet contenant le tableau de ville et le tableau de lieu
                     objet => {
-                        console.log(objet);
-                        afficherLieux(objet.lieux);
-
-                        let lieuxId = objet.lieux[0].id;
-                        console.log(lieuxId);
-                        villes = objet.villes;
-                        afficherVilles(lieuxId);
+                        let villeId = objet.ville[0].id;
+                        lieux = objet.lieu;
+                        afficherLieux(villeId);
+                        afficherVille(objet.ville);
        });
     </script>
 {% endblock %}

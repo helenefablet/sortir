@@ -16,20 +16,20 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints\DateTime;
 
-#[Route('/profile/sortie')]
+#[Route('/sortie')]
 class SortieController extends AbstractController
 {
     /**
-     * @Route("/sortie/ajouterSortie", name="_ajouterSortie")
+     * @Route("/ajouterSortie", name="_ajouterSortie")
      */
     public function ajouterSortie(Request $request, EntityManagerInterface $em, VilleRepository $villeRepository ){
             $s = new Sortie();
             $formS = $this->createForm(SortieType::class, $s);
             $formS->handleRequest($request);
             if ($formS->isSubmitted()) {
-                $villeId = $request->get('ville');
-                $ville = $villeRepository->find($villeId);
-                $s->setVille($ville);
+                $lieuId = $request->get('lieu');
+                $lieu = $villeRepository->find($lieuId);
+                $s->setLieu($lieu);
                 $em->persist($s);
                 $em->flush($s);
                 return $this->redirectToRoute('accueil');
@@ -42,7 +42,7 @@ class SortieController extends AbstractController
 
     // Fonction api tableau lieux et tableau villes
     /**
-     * @Route ("/sortie/newLiaison/", name="niewLiaison")
+     * @Route ("/newLiaison", name="_niewLiaison")
      */
     public function api (LieuRepository $repoL, VilleRepository $repoV) : Response
     {
@@ -52,20 +52,27 @@ class SortieController extends AbstractController
         {
             $info_l['id'] = $l->getId();
             $info_l['nom'] = $l->getNom();
+            $info_l['rue'] = $l->getRue();
+            $info_l['latitude'] = $l->getLatitude();
+            $info_l['longitude'] = $l->getLongitude();
+            $info_l['ville'] = $l->getVille()->getId();
+
             $tab_lieux[] = $info_l;
         }
 
         $villes = $repoV->findAll();
+
         $tab_Villes = [];
         foreach ($villes as $v)
         {
             $info_v['id'] = $v->getId();
             $info_v['nom'] = $v->getNom();
-            $info_v['lieux']  = $v->getLieux()->getId();
+            $info_v['code_postal'] = $v->getCodePostal();
+
             $tab_Villes[] = $info_v;
         }
-        $tab['lieux'] = $tab_lieux;
-        $tab['villes'] = $tab_Villes;
+        $tab['lieu'] = $tab_lieux;
+        $tab['ville'] = $tab_Villes;
 
 
         return $this->json($tab);
@@ -92,12 +99,13 @@ class SortieController extends AbstractController
 
 
             $newSortie = $request->get("newSortie");
-            //Etat Créée(avec le bouton Enregistrer)
+            //Etat Créée
             if ($newSortie==0){
                 $etat = $etatRepository->findOneBy(["id"=>"1"]);
+
                 $sortie->setEtat($etat);
 
-            //Etat Ouverte(avec le bouton Publier)
+            //Etat Ouverte
             }elseif ($newSortie==1){
                 $etat = $etatRepository->findOneBy(["id"=>"2"]);
                 $sortie->setEtat($etat);
