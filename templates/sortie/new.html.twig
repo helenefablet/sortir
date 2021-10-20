@@ -25,8 +25,7 @@
         // ici on alimente
     </select>
 
-    {#{{ form_row(formS.ville) }}
-    {{ form_row(formS.lieu) }}#}
+
 
     <a href="{{ path('lieu_new') }}"><img src="{{ asset('img/bouton_plus.png') }}" alt=""></a> {# TODO Qu'est ce que c'est? #}
 
@@ -80,27 +79,25 @@
                selectLieux.appendChild(option);
 
            }
-           }
-           //-----------------------------------
-           function afficherVille(tab)
-           {
-               //je parcours les ville du tableau
-               for (v of tab)
-           {
-                //je créer la balise option
-               let option = document.createElement('option');
-               //je lui applique la valeur ville.id
-               option.setAttribute('value',v.id);
-               //je lui dit d'afficher ville.nom dans la balise
-               option.textContent = v.nom;
-               //j applique au select la nouvelle balise option
-               document.querySelector('#ville').appendChild(option);
-           }
-           //-----------------------------------
+           }}
 
+           function afficherVille(tab) {
+               //je parcours les ville du tableau
+               for (v of tab) {
+                   //je créer la balise option
+                   let option = document.createElement('option');
+                   //je lui applique la valeur ville.id
+                   option.setAttribute('value', v.id);
+                   //je lui dit d'afficher ville.nom dans la balise
+                   option.textContent = v.nom;
+                   //j applique au select la nouvelle balise option
+                   document.querySelector('#ville').appendChild(option);
+               }
            }
-           }
-           //-----------------------------------
+
+
+
+
 
 
            let url ="newLiaison";
