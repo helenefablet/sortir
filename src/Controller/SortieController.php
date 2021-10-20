@@ -19,26 +19,6 @@ use Symfony\Component\Validator\Constraints\DateTime;
 #[Route('/sortie')]
 class SortieController extends AbstractController
 {
-    /**
-     * @Route("/ajouterSortie", name="_ajouterSortie")
-     */
-    public function ajouterSortie(Request $request, EntityManagerInterface $em, VilleRepository $villeRepository ){
-            $s = new Sortie();
-            $formS = $this->createForm(SortieType::class, $s);
-            $formS->handleRequest($request);
-            if ($formS->isSubmitted()) {
-                $lieuId = $request->get('lieu');
-                $lieu = $villeRepository->find($lieuId);
-                $s->setLieu($lieu);
-                $em->persist($s);
-                $em->flush($s);
-                return $this->redirectToRoute('accueil');
-            }
-            return $this->render('accueil/index.html.twig', [
-                'formS' => $formS->createView(),
-            ]);
-    }
-
 
     // Fonction api tableau lieux et tableau villes
     /**
@@ -81,36 +61,32 @@ class SortieController extends AbstractController
 
 
     #[Route('/new', name: 'sortie_new')]
-    public function new(Request $request, EtatRepository $etatRepository): Response
+    public function new(Request $request, EtatRepository $etatRepository, EntityManagerInterface $entityManager, LieuRepository $lieuRepository): Response
     {
 
         $sortie = new Sortie();
         $form = $this->createForm(SortieType::class, $sortie);
-
         $form->handleRequest($request);
 
-
-
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+
             $sortie->setCampus($this->getUser()->getCampus());
             $sortie->setOrganisateur($this->getUser());
-            $sortie->setLieu($form->get("lieu")->getData());
 
+            $sortie->setLieu($lieuRepository->find($request->get('lieu')));
+
+            //Gestion de l'état à la création
 
             $newSortie = $request->get("newSortie");
-            //Etat Créée
-            if ($newSortie==0){
-                $etat = $etatRepository->findOneBy(["id"=>"1"]);
-
+            //Etat "Créée - 1"
+            if ($newSortie == 0){
+                $etat = $etatRepository->find(1);
                 $sortie->setEtat($etat);
 
-            //Etat Ouverte
-            }elseif ($newSortie==1){
-                $etat = $etatRepository->findOneBy(["id"=>"2"]);
+            //Etat "Ouverte - 2"
+            }elseif ($newSortie == 1){
+                $etat = $etatRepository->find(2);
                 $sortie->setEtat($etat);
-
-
             }
 
             $entityManager->persist($sortie);
@@ -206,4 +182,5 @@ class SortieController extends AbstractController
 
         ], Response::HTTP_SEE_OTHER);
     }
+
 }

@@ -13,39 +13,39 @@
     {{ form_row(formS.nbInscriptionsMax) }}
     {{ form_row(formS.duree) }}
     {{ form_row(formS.infosSortie) }}
-
     {{ app.user.campus.nom }}
 
-    <label class="form-label"  for="ville">Ville</label>
+    <br>
+
+    <label class="form-label"  for="ville">Ville:</label>
     <select class="form-control" name="ville" id="ville" onchange="changeVilles()">
     </select>
 
-    <label class ="form-label"  for="lieu">Lieu</label>
+    <label class ="form-label"  for="lieu">Lieu:</label>
     <select class="form-control" name="lieu" id="lieu" >
         // ici on alimente
     </select>
 
+    {# Bouton pour ajouter un nouveau lieu #}
+    <a href="{{ path('lieu_new') }}"><img src="{{ asset('img/bouton_plus.png') }}" alt=""></a>
 
-
-    <a href="{{ path('lieu_new') }}"><img src="{{ asset('img/bouton_plus.png') }}" alt=""></a> {# TODO Qu'est ce que c'est? #}
+    {# Input caché qui gère la valeur des boutons Enregistrer=Créée et Publier=ouverte #}
+    <input type="hidden" id="info" name="info" value="1">
 
     {{ form_end(formS) }}
 
+    {# Appels des fonctions javascript #}
     <button onclick="enregistrer()" name="newSortie" id="enregistrer" value="0">Enregistrer</button>
+
     <button onclick="publier()" name="newSortie" id="publier" value="1">Publier</button>
-    {#  <a href="{{ path('sortie_index') }}">Annuler</a> #}
 
     <script>
-       function enregistrer(){
-            console.log(0);
+        function enregistrer(){
             document.querySelector("#formS").submit();
         }
-       function publier(){
-            console.log(1);
+        function publier(){
             document.querySelector("#formS").submit();
         }
-
-
 
         // PARTIE VILLE / LIEUX
 
@@ -94,10 +94,6 @@
                    document.querySelector('#ville').appendChild(option);
                }
            }
-
-
-
-
 
 
            let url ="newLiaison";
