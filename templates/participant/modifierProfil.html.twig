@@ -6,6 +6,7 @@
     <h1>Mon profil</h1>
 
     {{ form_start(formulaire) }}
+
     {{ form_row(formulaire.pseudo) }}
     {{ form_row(formulaire.prenom) }}
     {{ form_row(formulaire.nom) }}
@@ -18,5 +19,8 @@
 
 
     <button type="submit" class="btn">Enregistrer</button>
+    <a href="{{ path('accueil') }}">Retour</a>
+
     {{ form_end(formulaire) }}
+
 {% endblock %}

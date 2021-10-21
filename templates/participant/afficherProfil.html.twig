@@ -12,6 +12,7 @@
     </ul>
     {% if app.user.id == participant.id %}
         <a href="{{ path('participant_update', {'id': app.user.id}) }}">Modifier profil</a>
+        <a href="{{ path('participant_modifierMDP', {'id': app.user.id}) }}">Modifier Mot de passe</a>
     {% endif %}
     <a href="{{ path('accueil') }}">Retour</a>
 {% endblock %}

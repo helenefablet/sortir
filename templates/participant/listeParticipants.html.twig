@@ -40,13 +40,15 @@
 
                     <td>
                         <a href="#">Désactiver</a>
-                        <a href="#">Supprimer</a>
+                        <a href="{{ path('participant_delete', {'id': participant.id}) }}">Supprimer</a>
                     </td>
                 </tr>
                 {% endfor %}
 
             </tbody>
         </table>
+
+        <a href="{{ path('app_register') }}">Créer un participant</a><br>
     </main>
 
 

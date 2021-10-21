@@ -2,7 +2,6 @@
 
 namespace App;
 
-use App\Entity\Sortie;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -13,7 +12,8 @@ class Service
     protected $etatRepository;
     protected $sortierepository;
 
-    public function __construct(EntityManagerInterface $em, EtatRepository $etatRepository, SortieRepository $sortieRepository){
+    public function __construct(EntityManagerInterface $em, EtatRepository $etatRepository, SortieRepository $sortieRepository)
+    {
 
         $this->em = $em;
         $this->etatRepository = $etatRepository;
@@ -32,7 +32,6 @@ class Service
             foreach ($sorties as $value) {
 
                 $dureeSortie = $value->getDuree();
-                dump($dureeSortie);
 
                 //Etat "Clôturée"(date limite d'inscription atteinte ou nombreMax atteint)
                 if (($currentDate > $value->getDateLimiteInscription()) || ($value->getNbInscriptionsMax() == $value->getParticipants()->count())) {
@@ -45,25 +44,16 @@ class Service
                     //Etat "Passée"(date et hre actuelles > (date et heure de début de la sortie + durée de la sortie en integer convertie en temps)
                 } elseif ($currentDate > (($value->getDateHeureDebut())->add(new \DateInterval('PT' . $dureeSortie . 'M')))) {
                     $value->setEtat($this->etatRepository->find(5));
-
                 }
-
+                //Enregistrement des modifications effectuées
+                $this->em->persist($value); // Le persist doit être à l'intérieur de la boucle foreach
             }
 
-            //Enregistrement des modifications effectuées
-            $this->em->persist($value);
+
             $this->em->flush();
 
         }
-    }
-
-    public function annulerSortie(Sortie $sortie){
-
-        $sortie->setEtat($this->etatRepository->find(6));
-        $this->em->persist($sortie);
-        $this->em->flush();
 
     }
-
 
 }

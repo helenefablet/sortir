@@ -18,7 +18,7 @@ class ChangePasswordFormType extends AbstractType
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'first_options' => [
-                    'attr' => ['autocomplete' => 'nouveau mot de passe'],
+                    'attr' => ['autocomplete' => 'Nouveau mot de passe:'],
                     'constraints' => [
                         new NotBlank([
                             'message' => 'Merci de renseigner un mot de passe',
@@ -30,11 +30,11 @@ class ChangePasswordFormType extends AbstractType
                             'max' => 4096,
                         ]),
                     ],
-                    'label' => 'Nouveau mot de passe',
+                    'label' => 'Nouveau mot de passe:',
                 ],
                 'second_options' => [
-                    'attr' => ['autocomplete' => 'Nouveau mot de passe'],
-                    'label' => 'Répétez le mot de passe',
+                    'attr' => ['autocomplete' => 'Nouveau mot de passe:'],
+                    'label' => 'Répétez le mot de passe: ',
                 ],
                 'invalid_message' => 'Le mot de passe doit correspondre',
                 // Instead of being set onto the object directly,

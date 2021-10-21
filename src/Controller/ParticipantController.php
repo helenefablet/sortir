@@ -4,12 +4,14 @@ namespace App\Controller;
 
 
 use App\Entity\Participant;
+use App\Form\ChangePasswordFormType;
 use App\Form\ParticipantFormType;
 use App\Repository\ParticipantRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ParticipantController extends AbstractController
@@ -26,7 +28,6 @@ class ParticipantController extends AbstractController
     {
 
         $formulaire = $this->createForm(ParticipantFormType::class, $participant);
-
         $formulaire->handleRequest($request);
 
         if ($formulaire->isSubmitted() && $formulaire->isValid()) {
@@ -58,6 +59,41 @@ class ParticipantController extends AbstractController
             'controller_name' => 'ParticipantController',
             "listeParticipants" => $listeParticipants,
         ]);
+    }
+
+    #[Route('/participant/delete/{id}', name: 'participant_delete')]
+    public function delete(Request $request, Participant $participant): Response
+    {
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($participant);
+        $entityManager->flush();
+
+
+        return $this->redirectToRoute("participant_listeParticipants", [
+
+        ], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
+     * @IsGranted("ROLE_USER")
+     * @Route("/Participant/modifierMDP/{id}", name="participant_modifierMDP")
+     */
+
+    public function modifierMDP(EntityManagerInterface $entityManager,
+                           Request                $request,
+                           Participant            $participant): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+    {
+
+        $formulaire = $this->createForm(ChangePasswordFormType::class, $participant);
+        $formulaire->handleRequest($request);
+
+        if ($formulaire->isSubmitted() && $formulaire->isValid() && $participant->getPassword() == $request->get('AncienMDP')) {
+            $this->getDoctrine()->getManager()->flush();
+            return $this->redirectToRoute("accueil");
+        }
+        return $this->renderForm("participant/modifierMotDePasse.html.twig", compact("formulaire"));
+
     }
 
     }

@@ -77,16 +77,15 @@ class SortieController extends AbstractController
 
             //Gestion de l'état à la création
 
-            $newSortie = $request->get("newSortie");
-            //Etat "Créée - 1"
-            if ($newSortie == 0){
-                $etat = $etatRepository->find(1);
-                $sortie->setEtat($etat);
+            $info = $request->get("info");
 
-            //Etat "Ouverte - 2"
-            }elseif ($newSortie == 1){
-                $etat = $etatRepository->find(2);
-                $sortie->setEtat($etat);
+            //Etat "Créée"
+            if ($info == 1){
+                $sortie->setEtat($etatRepository->find(1));
+
+            //Etat "Ouverte"
+            }elseif ($info == 0){
+                $sortie->setEtat($etatRepository->find(2));
             }
 
             $entityManager->persist($sortie);
@@ -131,7 +130,6 @@ class SortieController extends AbstractController
     #[Route('/delete/{id}', name: 'sortie_delete')]
     public function delete(Request $request, Sortie $sortie): Response
     {
-
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($sortie);
             $entityManager->flush();
@@ -181,6 +179,34 @@ class SortieController extends AbstractController
         return $this->redirectToRoute("accueil", [
 
         ], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/annulerSortie/{id}', name: 'sortie_annuler')]
+    public function annulerSortie(Sortie $sortie, EtatRepository $etatRepository)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $sortie->setEtat($etatRepository->find(6));
+        $entityManager->persist($sortie);
+        $entityManager->flush();
+
+        return $this->redirectToRoute("accueil", [
+
+        ], Response::HTTP_SEE_OTHER);
+
+    }
+
+    #[Route('/publierSortie/{id}', name: 'sortie_publier')]
+    public function publierSortie(Sortie $sortie, EtatRepository $etatRepository)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $sortie->setEtat($etatRepository->find(2));
+        $entityManager->persist($sortie);
+        $entityManager->flush();
+
+        return $this->redirectToRoute("accueil", [
+
+        ], Response::HTTP_SEE_OTHER);
+
     }
 
 }

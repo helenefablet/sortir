@@ -29,21 +29,23 @@
     {# Bouton pour ajouter un nouveau lieu #}
     <a href="{{ path('lieu_new') }}"><img src="{{ asset('img/bouton_plus.png') }}" alt=""></a>
 
-    {# Input caché qui gère la valeur des boutons Enregistrer=Créée et Publier=ouverte #}
+    {# Input caché qui MODIFIE la valeur des boutons Enregistrer=Créée et Publier=ouverte #}
     <input type="hidden" id="info" name="info" value="1">
 
     {{ form_end(formS) }}
 
-    {# Appels des fonctions javascript #}
-    <button onclick="enregistrer()" name="newSortie" id="enregistrer" value="0">Enregistrer</button>
+    {# Appels des fonctions javascript; les boutons doivent être à l'extérieur du formulaire #}
 
-    <button onclick="publier()" name="newSortie" id="publier" value="1">Publier</button>
+    <button onclick="enregistrer()" id="enregistrer">Enregistrer</button>
+
+    <button onclick="publier()" id="publier">Publier</button>
 
     <script>
         function enregistrer(){
             document.querySelector("#formS").submit();
         }
         function publier(){
+            document.querySelector('#info').value="0";
             document.querySelector("#formS").submit();
         }
 
