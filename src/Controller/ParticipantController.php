@@ -3,8 +3,9 @@
 namespace App\Controller;
 
 
+use App\Entity\Image;
 use App\Entity\Participant;
-use App\Entity\Ville;
+use App\Form\ChangePasswordFormType;
 use App\Form\ParticipantFormType;
 use App\Repository\ParticipantRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -28,10 +29,32 @@ class ParticipantController extends AbstractController
     {
 
         $formulaire = $this->createForm(ParticipantFormType::class, $participant);
-
         $formulaire->handleRequest($request);
 
         if ($formulaire->isSubmitted() && $formulaire->isValid()) {
+
+            //TRAITEMENT IMAGES
+
+            //récupération des images
+            $images = $formulaire->get('images')->getData();
+
+            //Attribut d'un nom de fichier
+            foreach ($images as $image) {
+                $fichier = md5(uniqid()) . '.' . $image->guessExtension();
+
+                //Copie dans le fichier uploads
+                $image->move(
+                    $this->getParameter('images_directory')
+                );
+
+
+                //Stockage en base de données
+                $img = new Image();
+                $img->setNom($fichier);
+                $participant->addImage($img);
+
+            }
+
             $this->getDoctrine()->getManager()->flush();
             return $this->redirectToRoute("accueil");
         }
@@ -45,6 +68,7 @@ class ParticipantController extends AbstractController
     public function afficherProfil(Participant $participant ){
 
         return $this->render("participant/afficherProfil.html.twig", compact("participant"));
+
     }
 
 
@@ -61,8 +85,7 @@ class ParticipantController extends AbstractController
         ]);
     }
 
-
-    #[Route('/{id}', name: 'participant_delete')]
+    #[Route('/participant/delete/{id}', name: 'participant_delete')]
     public function delete(Request $request, Participant $participant): Response
     {
 
@@ -71,7 +94,31 @@ class ParticipantController extends AbstractController
         $entityManager->flush();
 
 
-        return $this->redirectToRoute('participant_listeParticipants', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute("participant_listeParticipants", [
+
+        ], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
+     * @IsGranted("ROLE_USER")
+     * @Route("/Participant/modifierMDP/{id}", name="participant_modifierMDP")
+     */
+
+    public function modifierMDP(EntityManagerInterface $entityManager,
+                           Request                $request,
+                           Participant            $participant): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+    {
+
+        $formulaire = $this->createForm(ChangePasswordFormType::class, $participant);
+        $formulaire->handleRequest($request);
+
+        if ($formulaire->isSubmitted() && $formulaire->isValid() && $participant->getPassword() == $request->get('AncienMDP')) {
+            $this->getDoctrine()->getManager()->flush();
+            return $this->redirectToRoute("accueil");
+        }
+        return $this->renderForm("participant/modifierMotDePasse.html.twig", compact("formulaire"));
+
     }
 
     }
+

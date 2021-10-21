@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Image;
 use App\Entity\Participant;
 use App\Form\RegistrationFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -37,6 +38,28 @@ class RegistrationController extends AbstractController
                     $form->get('password')->getData()
                 )
             );
+
+            //TRAITEMENT IMAGES
+
+            //récupération des images
+            $images = $form->get('images')->getData();
+
+            //Attribut d'un nom de fichier
+            foreach ($images as $image){
+                $fichier = md5(uniqid()).'.'.$image->guessExtension();
+
+                //Copie dans le fichier uploads
+                $image->move(
+                    $this->getParameter('images_directory')
+                );
+
+                //Stockage en base de données
+                $img = new Image();
+                $img->setNom($fichier);
+                $user->addImage($img);
+            }
+
+
 
             $entityManager = $this->getDoctrine()->getManager();
 

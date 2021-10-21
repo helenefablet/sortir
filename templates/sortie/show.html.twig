@@ -3,37 +3,50 @@
 {% block title %}Sortie{% endblock %}
 
 {% block body %}
-    <h1>Sortie</h1>
+    <h1>{{ sortie.nom }}</h1>
 
     <table class="table">
 
         <tbody>
-        <tr>
+        {#<tr>
             <th>Nom</th>
             <td>{{ sortie.nom }}</td>
+        </tr>#}
+
+        {% if not sortie.organisateur.pseudo %}
+            <tr>
+                <th>Organisateur</th>
+                <td><a href="{{ path('participant_afficherProfil', {'id': sortie.organisateur.id}) }}">{{sortie.organisateur.prenom }} {{ sortie.organisateur.nom | slice(0,1)~"." }} </a></td>
+            </tr>
+        {% else %}
+            <tr>
+                <th>Organisateur</th>
+                <td><a href="{{ path('participant_afficherProfil', {'id': sortie.organisateur.id}) }}">{{sortie.organisateur.pseudo }} </a></td>
+            </tr>
+        {% endif %}
+
+        <tr>
+            <th>Date et Heure de la sortie</th>
+            <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d-m-Y H:i') : '' }}</td>
         </tr>
         <tr>
-            <th>DateHeureDebut</th>
-            <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('Y-m-d') : '' }}</td>
-        </tr>
-        <tr>
-            <th>Duree</th>
+            <th>Durée (Minutes)</th>
             <td>{{ sortie.duree }}</td>
         </tr>
         <tr>
-            <th>DateLimiteInscription</th>
-            <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('Y-m-d') : '' }}</td>
+            <th>Date Limite des inscriptions</th>
+            <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('d-m-Y') : '' }}</td>
         </tr>
         <tr>
-            <th>NbInscriptionsMax</th>
+            <th>Capacité</th>
             <td>{{ sortie.nbInscriptionsMax }}</td>
         </tr>
         <tr>
-            <th>InfosSortie</th>
+            <th>Infos Sortie</th>
             <td>{{ sortie.infosSortie }}</td>
         </tr>
         <tr>
-            <th>NbreParticipantsInscrits</th>
+            <th>Nombre de participants inscrits</th>
             <td>{{ sortie.participants.count }}</td>
         </tr>
         </tbody>

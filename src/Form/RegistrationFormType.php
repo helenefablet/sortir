@@ -10,7 +10,6 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
@@ -44,7 +43,7 @@ class RegistrationFormType extends AbstractType
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Please enter a password',
+                        'message' => 'Renseigner votre mot de passe',
                     ]),
                     new Length([
                         'min' => 6,
@@ -60,10 +59,14 @@ class RegistrationFormType extends AbstractType
                 'class' => Campus::class,
                 'choice_label' => "nom"
             ])
-            ->add('photo', FileType::class, [
-                'label' => 'photo',
-                'mapped' => false
-                ])
+
+            ->add('images', FileType::class, [
+                "label" => "Ajouter une Image",
+                "multiple" => true,
+                "mapped" => false,
+                "required" => false
+            ])
+
         ;
     }
 

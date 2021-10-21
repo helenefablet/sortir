@@ -87,11 +87,18 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $sorties;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="participant",
+     * cascade={"persist"})
+     */
+    private $images;
+
     public function __construct()
     {
         $this->sorties = new ArrayCollection();
         $this->est_inscrit = new ArrayCollection();
         $this->orgSorties = new ArrayCollection();
+        $this->images = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -323,6 +330,36 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->sorties->removeElement($sorty)) {
             $sorty->removeParticipant($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Image[]
+     */
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImage(Image $image): self
+    {
+        if (!$this->images->contains($image)) {
+            $this->images[] = $image;
+            $image->setParticipant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(Image $image): self
+    {
+        if ($this->images->removeElement($image)) {
+            // set the owning side to null (unless already changed)
+            if ($image->getParticipant() === $this) {
+                $image->setParticipant(null);
+            }
         }
 
         return $this;
