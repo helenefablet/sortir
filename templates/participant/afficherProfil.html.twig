@@ -2,26 +2,46 @@
 
 {% block body %}
 
-    <ul>
-       {# <div>
-            {{ participant.images.id }}
-        </div>#}
         <div>
-            <li>Prénom : {{ participant.prenom }}</li>
-            <li>Nom : {{ participant.nom }}</li>
-            <li>Pseudo : {{ participant.pseudo }}</li>
-            <li>Téléphone : {{ participant.telephone }}</li>
-            <li>Email : {{ participant.email }}</li>
-            <li>Campus : {{ participant.campus.nom }}</li>
+            {% for image  in participant.images %}
+                <img src="{{ asset('upload/' ~  image.nom) }}" alt="imageProfil">
+            {% endfor %}
         </div>
-    </ul>
+
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Prénom</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Pseudo</th>
+                <th scope="col">Téléphone</th>
+                <th scope="col">Email</th>
+                <th scope="col">Campus</th>
+            </tr>
+            </thead>
+        <tbody>
+        <tr>
+            <th scope="row">{{ participant.prenom }}</th>
+            <th scope="row">{{ participant.nom }}</th>
+            <th scope="row">{{ participant.pseudo }}</th>
+            <th scope="row">{{ participant.telephone }}</th>
+            <th scope="row">{{ participant.email }}</th>
+            <th scope="row">{{ participant.campus.nom }}</th>
+        </tr>
+        </tbody>
+
+        </table>
+
     {% if app.user.id == participant.id %}
-        <a href="{{ path('') }}">Galerie d'images</a>
-        <a href="{{ path('participant_update', {'id': app.user.id}) }}">Modifier profil</a>
-        <a href="{{ path('participant_modifierMDP', {'id': app.user.id}) }}">Modifier Mot de passe</a>
+        <a href="{{ path('participant_update', {'id': app.user.id}) }}" class="btn btn-outline-info">Modifier profil</a>
+        <a href="{{ path('participant_modifierMDP', {'id': app.user.id}) }}" class="btn btn-outline-info">Modifier Mot de passe</a>
     {% endif %}
-    <a href="{{ path('accueil') }}">Retour</a>
+
+
+    <a href="{{ path('accueil') }}" class="btn btn-outline-info">Retour</a>
+
 {% endblock %}
+
 
 {% block title %}
 

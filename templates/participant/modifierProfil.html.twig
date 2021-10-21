@@ -16,13 +16,15 @@
     {{ form_row(formulaire.password.second) }}
     {{ form_row(formulaire.campus) }}
 
-    {{ form_row(registrationForm.images) }}
+    {{ form_row(formulaire.images) }}
 
 
 
-    <button type="submit" class="btn">Enregistrer</button>
-    <a href="{{ path('accueil') }}">Retour</a>
+    <button type="submit" class="btn btn-outline-info">Enregistrer</button>
+    <a href="{{ path('accueil') }}" class="btn btn-outline-info">Retour</a>
 
     {{ form_end(formulaire) }}
 
 {% endblock %}
+
+

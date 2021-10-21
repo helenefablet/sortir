@@ -44,12 +44,15 @@ class RegistrationController extends AbstractController
 
             //Attribut d'un nom de fichier
             foreach ($images as $image){
+
                 $fichier = md5(uniqid()).'.'.$image->guessExtension();
 
                 //Copie dans le fichier uploads
-                $image->move(
-                    $this->getParameter('images_directory')
+                    $image->move(
+                    $this->getParameter('images_directory'),
+                        $fichier
                 );
+
 
                 //Stockage en base de données
                 $img = new Image();

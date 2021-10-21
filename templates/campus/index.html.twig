@@ -18,8 +18,8 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Campus</th>
-                <th>actions</th>
+                <th>CAMPUS</th>
+                <th>ACTIONS</th>
             </tr>
         </thead>
         <tbody>
@@ -27,8 +27,8 @@
             <tr>
                 <td>{{ campus.nom }}</td>
                 <td>
-                    <a href="{{ path('campus_edit', {'id': campus.id}) }}">Modifier -</a>
-                    <a href="{{ path('campus_delete', {'id': campus.id}) }}">Supprimer</a>
+                    <a href="{{ path('campus_edit', {'id': campus.id}) }}" class="btn btn-outline-info">Modifier -</a>
+                    <a href="{{ path('campus_delete', {'id': campus.id}) }}" class="btn btn-outline-danger">Supprimer</a>
                 </td>
             </tr>
         {% else %}
@@ -39,5 +39,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('campus_new') }}">Ajouter</a>
+    <a href="{{ path('campus_new') }}" class="btn btn-outline-info">Ajouter</a>
 {% endblock %}

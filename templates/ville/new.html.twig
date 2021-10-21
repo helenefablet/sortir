@@ -7,8 +7,8 @@
 
     {{ form_start(form) }}
     {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Enregistrer') }}</button>
+    <button class="btn btn-outline-info" >{{ button_label|default('Enregistrer') }}</button>
     {{ form_end(form) }}
 
-    <a href="{{ path('ville_index') }}">Retour</a>
+    <a href="{{ path('ville_index') }}"  class="btn btn-outline-info">Retour</a>
 {% endblock %}

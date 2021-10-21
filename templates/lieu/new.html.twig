@@ -12,9 +12,9 @@
     {{ form_row(form.longitude) }}
     {{ form_row(form.ville) }}
 
-    <button class="btn">{{ button_label|default('Créer un lieu') }}</button>
+    <button class="btn btn-outline-info">{{ button_label|default('Créer un lieu') }}</button>
     {{ form_end(form) }}
 
 
-    <a href="{{ path('lieu_index') }}">Retour</a>
+    <a href="{{ path('lieu_index') }}" class="btn btn-outline-info">Retour</a>
 {% endblock %}

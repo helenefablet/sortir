@@ -29,9 +29,9 @@
                 <td>{{ lieu.latitude }}</td>
                 <td>{{ lieu.longitude }}</td>
                 <td>
-                    <a href="{{ path('lieu_show', {'id': lieu.id}) }}">Détails</a>
-                    <a href="{{ path('lieu_edit', {'id': lieu.id}) }}">Modifier</a>
-                    <a href="{{ path('lieu_delete', {'id': lieu.id}) }}">Supprimer</a>
+                    <a href="{{ path('lieu_show', {'id': lieu.id}) }}" class="btn btn-outline-info">Détails</a>
+                    <a href="{{ path('lieu_edit', {'id': lieu.id}) }}" class="btn btn-outline-info">Modifier</a>
+                    <a href="{{ path('lieu_delete', {'id': lieu.id}) }}" class="btn btn-outline-danger">Supprimer</a>
                 </td>
             </tr>
         {% else %}
@@ -42,6 +42,6 @@
         </tbody>
     </table>
 
-    <a href="{{ path('lieu_new') }}">Ajouter un lieu</a>
+    <a href="{{ path('lieu_new') }}" class="btn btn-outline-info">Ajouter un lieu</a>
 
 {% endblock %}
