@@ -6,6 +6,7 @@ use App\Entity\Image;
 use App\Entity\Participant;
 use App\Form\RegistrationFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -22,6 +23,7 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             //ROLE_ADMIN
             if ($user->getAdministrateur() == 1){
                 $user->setRoles(['ROLE_ADMIN']);
@@ -44,12 +46,15 @@ class RegistrationController extends AbstractController
 
             //Attribut d'un nom de fichier
             foreach ($images as $image){
+
                 $fichier = md5(uniqid()).'.'.$image->guessExtension();
 
                 //Copie dans le fichier uploads
-                $image->move(
-                    $this->getParameter('images_directory')
+                    $image->move(
+                    $this->getParameter('images_directory'),
+                        $fichier
                 );
+
 
                 //Stockage en base de données
                 $img = new Image();

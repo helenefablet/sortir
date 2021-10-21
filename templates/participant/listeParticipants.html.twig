@@ -10,46 +10,43 @@
         </div>
     </header>
     <main>
-        <a href="{{ path('app_register') }}">Créer un participant</a><br>
-        <table>
+        <a href="{{ path('app_register') }}" class="btn btn-outline-info">Créer un participant</a><br>
+        {# TABLEAU PARTICIPANT #}
+        <table class="table table-hover">
             <thead>
-            <th>
-                <tr>Nom</tr>
-                <tr>Prénom</tr>
-                <tr>Pseudo</tr>
-                <tr>Email</tr>
-                <tr>Téléphone</tr>
-                <tr>Campus</tr>
-                <tr>Administrateur</tr>
-                <tr>Actif</tr>
-                <tr>Actions</tr>
-            </th>
+            <tr>
+                <th scope="col">Nom</th>
+                <th scope="col">Prénom</th>
+                <th scope="col">Pseudo</th>
+                <th scope="col">Email</th>
+                <th scope="col">Téléphone</th>
+                <th scope="col">Campus</th>
+                <th scope="col">Administrateur</th>
+                <th scope="col">Actif</th>
+                <th scope="col">Actions</th>
+            </tr>
             </thead>
+
             <tbody>
+            {% for participant in listeParticipants %}
+            <tr>
+                <td><a href="{{ path('participant_afficherProfil', {id: participant.id})}}">{{ participant.nom }}</a></td>
+                <td>{{ participant.prenom }}</td>
+                <td>{{ participant.pseudo }}</td>
+                <td>{{ participant.email }}</td>
+                <td>{{ participant.telephone }}</td>
+                <td>{{ participant.campus.nom }}</td>
+                <td>{{ participant.administrateur }}</td>
+                <td>{{ participant.actif }}</td>
 
-                {% for participant in listeParticipants %}
-                <tr>
-                    <td><a href="{{ path('participant_afficherProfil', {id: participant.id}) }}">{{ participant.nom }}</a></td>
-                    <td>{{ participant.prenom }}</td>
-                    <td>{{ participant.pseudo }}</td>
-                    <td>{{ participant.email }}</td>
-                    <td>{{ participant.telephone }}</td>
-                    <td>{{ participant.campus.nom }}</td>
-                    <td>{{ participant.administrateur }}</td>
-                    <td>{{ participant.actif }}</td>
-
-                    <td>
-                        <a href="#">Désactiver</a>
-                        <a href="{{ path('participant_delete', {'id': participant.id}) }}">Supprimer</a>
-                    </td>
-                </tr>
+                <td>
+                    <a href="{{ path('participant_listeParticipants', {'id': participant.id}) }}" class="text-info">Désactiver</a>
+                    <a href="{{ path('participant_delete', {'id': participant.id}) }}" class="text-info">Supprimer</a>
+                    <a href="{{ path('app_register') }}" class="text-info">Créer un participant</a><br>
+                </td>
                 {% endfor %}
-
+            </tr>
             </tbody>
         </table>
-
-        <a href="{{ path('app_register') }}">Créer un participant</a><br>
     </main>
-
-
 {% endblock %}

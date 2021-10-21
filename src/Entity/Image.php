@@ -23,7 +23,7 @@ class Image
     private $nom;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Participant::class, inversedBy="images")
+     * @ORM\ManyToOne(targetEntity=Participant::class, inversedBy="images") //TODO Delete cascade
      */
     private $participant;
 

@@ -30,10 +30,10 @@
         </tbody>
     </table>
 
-    <a href="{{ path('lieu_index') }}">Retour à la liste</a>
+    <a href="{{ path('lieu_index') }}" class="btn btn-outline-info">Retour à la liste</a>
 
-    <a href="{{ path('lieu_edit', {'id': lieu.id}) }}">Modifier</a>
-    <a href="{{ path('lieu_delete', {'id': lieu.id}) }}">Supprimer</a>
+    <a href="{{ path('lieu_edit', {'id': lieu.id}) }}" class="btn btn-outline-info">Modifier</a>
+    <a href="{{ path('lieu_delete', {'id': lieu.id}) }}" class="btn btn-outline-danger">Supprimer</a>
 
 
 {% endblock %}

@@ -93,7 +93,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\OneToMany(targetEntity=Image::class, mappedBy="participant",
-     * cascade={"persist"})
+     * cascade={"persist"}, orphanRemoval= true)
      */
     private $images;
 

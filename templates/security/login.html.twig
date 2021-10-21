@@ -3,6 +3,14 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
+
+<div class="container-fluid h-100 bg-light text-dark">
+    <div class="row justify-content-center align-items-center">
+    </div>
+
+<div class="row justify-content-center align-items-center h-100">
+    <div class="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
+
 <form method="post">
     {% if error %}
         <div class="alert alert-danger">Erreur dans vos identifiant ou mot de passe !</div>
@@ -21,17 +29,20 @@
 
         <div class="checkbox mb-3">
             <label>
-                <input type="checkbox" name="_remember_me"> Se souvenir de moi
+                <input type="checkbox" name="_remember_me" checked> Se souvenir de moi
             </label>
         </div>
 
 
 
 
-    <button class="btn btn-lg btn-primary" type="submit">
+    <button class="btn btn-outline-info" type="submit">
         Connexion
     </button>
 
-    <a href="{{ path('app_forgot_password_request') }}">Mot de passe oublié ?</a>
+    <a href="{{ path('app_forgot_password_request') }}"  class="btn btn-outline-info">Mot de passe oublié ?</a>
 </form>
+    </div>
+    
+</div>
 {% endblock %}

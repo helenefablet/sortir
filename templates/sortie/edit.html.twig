@@ -18,11 +18,11 @@
         {#{{ form_row(form.lieu) }}#}
 
 
-        <button class="btn">{{ button_label|default('Modifier') }}</button>
+        <button class="btn btn-outline-info">{{ button_label|default('Modifier') }}</button>
 
     {{ form_end(form) }}
 
-    <a href="{{ path('accueil') }}">Retour à la liste</a>
-    <a href="{{ path('sortie_delete', {'id': sortie.id}) }}">Supprimer</a>
+    <a href="{{ path('accueil') }}"  class="btn btn-outline-info">Retour à la liste</a>
+    <a href="{{ path('sortie_delete', {'id': sortie.id}) }}"  class="btn btn-outline-danger">Supprimer</a>
 
 {% endblock %}
