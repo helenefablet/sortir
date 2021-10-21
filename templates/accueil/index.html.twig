@@ -16,26 +16,31 @@
     <main>
 
         {# FILTRE SORTIES #}
-        <div>
-            <h2>Filtrer les sorties</h2>
+        <h2>Filtrer les sorties</h2>
+
+        <div id="filtre_accueil">
+
             <div>
                 <label for="campus">Campus</label>
                 <select name="campus" id="campus"></select><br>
                 <label for="site-search">Le nom de la sortie contient:</label>
                 <input type="search" id="site-search" name="q"><br>
             </div>
-            <div>
-                <label for="dateDepartRecherche">Entre</label>
-                <input type="date" id="dateDepartRecherche" name="dateDepartRecherche">
-                <label for="dateFinRecherche"> et </label>
-                <input type="date" id="dateFinRecherche" name="dateFinRecherche">
-            </div>
+
             <div>
                 <input type="checkbox" name="organisateur">Sorties dont je suis l'organisateur<br>
                 <input type="checkbox" name="inscrit">Sorties auxquelles je suis inscrit<br>
                 <input type="checkbox" name="pasInscrit">Sorties auxquelles je ne suis pas inscrit<br>
                 <input type="checkbox" name="passees">Sorties passées<br>
             </div>
+
+        </div>
+
+        <div>
+            <label for="dateDepartRecherche">Entre</label>
+            <input type="date" id="dateDepartRecherche" name="dateDepartRecherche">
+            <label for="dateFinRecherche"> et </label>
+            <input type="date" id="dateFinRecherche" name="dateFinRecherche">
         </div>
 
         <hr>

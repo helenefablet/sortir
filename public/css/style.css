@@ -2,3 +2,9 @@
     width: 100%;
     height: 800px;
 }
+
+#filtre_accueil{
+    margin-top: 25px;
+    display: flex;
+    margin-inside: 50px;
+}

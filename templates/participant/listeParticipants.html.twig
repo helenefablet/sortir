@@ -30,7 +30,7 @@
             <tbody>
             {% for participant in listeParticipants %}
             <tr>
-                <td>{{ participant.nom }}</td>
+                <td><a href="{{ path('participant_afficherProfil', {id: participant.id})}}">{{ participant.nom }}</a></td>
                 <td>{{ participant.prenom }}</td>
                 <td>{{ participant.pseudo }}</td>
                 <td>{{ participant.email }}</td>
@@ -40,7 +40,7 @@
                 <td>{{ participant.actif }}</td>
 
                 <td>
-                    <a href="{{ path('participant_listeParticipants', {'id': participant}) }}" class="text-info">Désactiver</a>
+                    <a href="{{ path('participant_listeParticipants', {'id': participant.id}) }}" class="text-info">Désactiver</a>
                     <a href="{{ path('participant_delete', {'id': participant.id}) }}" class="text-info">Supprimer</a>
                     <a href="{{ path('app_register') }}" class="text-info">Créer un participant</a><br>
                 </td>
