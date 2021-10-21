@@ -94,7 +94,7 @@ class ParticipantController extends AbstractController
         $entityManager->flush();
 
 
-        return $this->redirectToRoute("participant_listeParticipants", [
+        return $this->redirectToRoute("participant_afficherProfil", [
 
         ], Response::HTTP_SEE_OTHER);
     }
