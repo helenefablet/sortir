@@ -79,15 +79,17 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $pseudo;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="organisateur")
-     */
-    private $orgSorties;
 
     /**
      * @ORM\ManyToMany(targetEntity=Sortie::class, mappedBy="participants")
      */
     private $sorties;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="organisateur")
+     */
+    private $orgSorties;
+
 
     /**
      * @ORM\OneToMany(targetEntity=Image::class, mappedBy="participant",
@@ -97,8 +99,10 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct()
     {
-        $this->sorties = new ArrayCollection();
+
         $this->est_inscrit = new ArrayCollection();
+
+        $this->sorties = new ArrayCollection();
         $this->orgSorties = new ArrayCollection();
         $this->images = new ArrayCollection();
     }
@@ -310,32 +314,8 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|Sortie[]
-     */
-    public function getSorties(): Collection
-    {
-        return $this->sorties;
-    }
 
-    public function addSorty(Sortie $sorty): self
-    {
-        if (!$this->sorties->contains($sorty)) {
-            $this->sorties[] = $sorty;
-            $sorty->addParticipant($this);
-        }
 
-        return $this;
-    }
-
-    public function removeSorty(Sortie $sorty): self
-    {
-        if ($this->sorties->removeElement($sorty)) {
-            $sorty->removeParticipant($this);
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection|Image[]

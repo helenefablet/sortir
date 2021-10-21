@@ -22,19 +22,43 @@ class SortieRepository extends ServiceEntityRepository
     // /**
     //  * @return Sortie[] Returns an array of Sortie objects
     //  */
-    /*
-    public function findByExampleField($value)
+
+    public function findByParticipants($id)
     {
         return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
+            ->addSelect('p')
+            ->join('s.participants','p' )
+            ->andWhere('p.id = :val')
+            ->setParameter('val', $id)
             ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+    public function findByParticipantsNotIn($id)
+    {
+        return $this->createQueryBuilder('s')
+            ->addSelect('p')
+            ->join('s.participants','p' )
+            ->andWhere('p.id = :val')
+            ->setParameter('val', $id)
+            ->orderBy('s.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+    public function findByDateEntre($value1, $value2)
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.dateLimiteInscription BETWEEN :val1 AND :val2')
+            ->setParameter('val1', $value1->format('D-M-Y'))
+            ->setParameter('val2', $value2->format('D-M-Y'))
+            ->orderBy('s.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
 
     /*
     public function findOneBySomeField($value): ?Sortie

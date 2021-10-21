@@ -109,7 +109,7 @@ class SortieController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'sortie_edit')]
+    #[Route('/edit/{id}', name: 'sortie_edit')]
     public function edit(Request $request, Sortie $sortie): Response
     {
         $form = $this->createForm(SortieType::class, $sortie);
