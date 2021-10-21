@@ -3,12 +3,17 @@
 {% block body %}
 
     <ul>
-        <li>Prénom : {{ participant.prenom }}</li>
-        <li>Nom : {{ participant.nom }}</li>
-        <li>Pseudo : {{ participant.pseudo }}</li>
-        <li>Téléphone : {{ participant.telephone }}</li>
-        <li>Email : {{ participant.email }}</li>
-        <li>Campus : {{ participant.campus.nom }}</li>
+       {# <div>
+            {{ participant.images.id }}
+        </div>#}
+        <div>
+            <li>Prénom : {{ participant.prenom }}</li>
+            <li>Nom : {{ participant.nom }}</li>
+            <li>Pseudo : {{ participant.pseudo }}</li>
+            <li>Téléphone : {{ participant.telephone }}</li>
+            <li>Email : {{ participant.email }}</li>
+            <li>Campus : {{ participant.campus.nom }}</li>
+        </div>
     </ul>
     {% if app.user.id == participant.id %}
         <a href="{{ path('participant_update', {'id': app.user.id}) }}">Modifier profil</a>

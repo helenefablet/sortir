@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 
+use App\Entity\Image;
 use App\Entity\Participant;
 use App\Form\ChangePasswordFormType;
 use App\Form\ParticipantFormType;
@@ -31,6 +32,29 @@ class ParticipantController extends AbstractController
         $formulaire->handleRequest($request);
 
         if ($formulaire->isSubmitted() && $formulaire->isValid()) {
+
+            //TRAITEMENT IMAGES
+
+            //récupération des images
+            $images = $formulaire->get('images')->getData();
+
+            //Attribut d'un nom de fichier
+            foreach ($images as $image) {
+                $fichier = md5(uniqid()) . '.' . $image->guessExtension();
+
+                //Copie dans le fichier uploads
+                $image->move(
+                    $this->getParameter('images_directory')
+                );
+
+
+                //Stockage en base de données
+                $img = new Image();
+                $img->setNom($fichier);
+                $participant->addImage($img);
+
+            }
+
             $this->getDoctrine()->getManager()->flush();
             return $this->redirectToRoute("accueil");
         }

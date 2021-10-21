@@ -29,7 +29,7 @@
 
                 {% for participant in listeParticipants %}
                 <tr>
-                    <td>{{ participant.nom }}</td>
+                    <td><a href="{{ path('participant_afficherProfil', {id: participant.id}) }}">{{ participant.nom }}</a></td>
                     <td>{{ participant.prenom }}</td>
                     <td>{{ participant.pseudo }}</td>
                     <td>{{ participant.email }}</td>
