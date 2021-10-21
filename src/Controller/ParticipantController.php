@@ -4,12 +4,14 @@ namespace App\Controller;
 
 
 use App\Entity\Participant;
+use App\Entity\Ville;
 use App\Form\ParticipantFormType;
 use App\Repository\ParticipantRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ParticipantController extends AbstractController
@@ -43,7 +45,6 @@ class ParticipantController extends AbstractController
     public function afficherProfil(Participant $participant ){
 
         return $this->render("participant/afficherProfil.html.twig", compact("participant"));
-
     }
 
 
@@ -60,5 +61,17 @@ class ParticipantController extends AbstractController
         ]);
     }
 
+
+    #[Route('/{id}', name: 'participant_delete')]
+    public function delete(Request $request, Participant $participant): Response
+    {
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($participant);
+        $entityManager->flush();
+
+
+        return $this->redirectToRoute('participant_listeParticipants', [], Response::HTTP_SEE_OTHER);
     }
 
+    }

@@ -5,7 +5,6 @@
 {% block body %}
     <h1>Créer une Sortie</h1>
 
-
     {{ form_start(formS,{'attr':{'id': 'formS'}}) }}
     {{ form_row(formS.nom) }}
     {{ form_row(formS.dateHeureDebut) }}
@@ -21,8 +20,8 @@
     </select>
 
     <label class ="form-label"  for="lieu">Lieu</label>
-    <select class="form-control" name="lieu" id="lieu" >
-        // ici on alimente
+    <select class="form-control" name="lieu" id="lieu">
+        {# Ici, on alimente #}
     </select>
 
 
@@ -31,8 +30,8 @@
 
     {{ form_end(formS) }}
 
-    <button onclick="enregistrer()" name="newSortie" id="enregistrer" value="0">Enregistrer</button>
-    <button onclick="publier()" name="newSortie" id="publier" value="1">Publier</button>
+    <button onclick="enregistrer()" name="newSortie" id="enregistrer" value="0" class="btn btn-outline-info">Enregistrer</button>
+    <button onclick="publier()" name="newSortie" id="publier" value="1" class="btn btn-outline-info">Publier</button>
     {#  <a href="{{ path('sortie_index') }}">Annuler</a> #}
 
     <script>

@@ -2,21 +2,38 @@
 
 {% block body %}
 
-    <ul>
-        <li>Prénom : {{ participant.prenom }}</li>
-        <li>Nom : {{ participant.nom }}</li>
-        <li>Pseudo : {{ participant.pseudo }}</li>
-        <li>Téléphone : {{ participant.telephone }}</li>
-        <li>Email : {{ participant.email }}</li>
-        <li>Campus : {{ participant.campus.nom }}</li>
-    </ul>
+    {# TABLEAU PARTICIPANT #}
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Prénom</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Pseudo</th>
+                <th scope="col">Téléphone</th>
+                <th scope="col">Email</th>
+                <th scope="col">Campus</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">{{ participant.prenom }}</th>
+            <th scope="row">{{ participant.nom }}</th>
+            <th scope="row">{{ participant.pseudo }}</th>
+            <th scope="row">{{ participant.telephone }}</th>
+            <th scope="row">{{ participant.email }}</th>
+            <th scope="row">{{ participant.campus.nom }}</th>
+            <th scope="row">{{ participant.email }}</th>
+        </tr>
+        </tbody>
+
+    </table>
+
     {% if app.user.id == participant.id %}
-        <a href="{{ path('participant_update', {'id': app.user.id}) }}">Modifier profil</a>
+        <a href="{{ path('participant_update', {'id': app.user.id}) }}" class="btn btn-outline-info">Modifier profil</a>
     {% endif %}
-    <a href="{{ path('accueil') }}">Retour</a>
-{% endblock %}
+    <a href="{{ path('accueil') }}" class="btn btn-outline-info">Retour</a>
+
+        {% endblock %}
 
 {% block title %}
-
 {% endblock %}
-

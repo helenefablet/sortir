@@ -16,23 +16,75 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     </head>
     <body>
-        <header>
-            {% if app.user %}
-                <div class="mb-3">
 
-                    {% if is_granted("ROLE_ADMIN") %}
-                        <a href="{{ path('participant_listeParticipants') }}">Utilisateurs</a>
-                        <a href="{{ path('campus_index') }}">Campus</a>
+
+    {# NAVBAR #}
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{{ path('accueil') }}">Sortir.com</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    {% if app.user %}
+                        {% if is_granted("ROLE_ADMIN") %}
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{ path('participant_listeParticipants') }}">Utilisateurs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{ path('campus_index') }}">Campus</a>
+                    </li>
                     {% endif %}
-
-                    <a href="{{ path('accueil') }}">Accueil</a>
-                    <a href="{{ path('ville_index') }}">Villes</a>
-                    <a href="{{ path('participant_afficherProfil', {'id': app.user.id}) }}">Mon profil</a>
-                    <a href="{{ path('app_logout') }}">Se déconnecter</a>
-                </div>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{ path('ville_index') }}">Villes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ path('participant_afficherProfil', {'id': app.user.id}) }}">Mon profil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ path('app_logout') }}">Déconnexion</a>
+                    </li>
+                </ul>
+            </div>
             {% endif %}
-        </header>
+        </div>
+    </nav>
         {% block body %}
         {% endblock %}
+
+
+
+    {# FOOTER #}
+    <footer class="text-center text-white" style="background-color: #f1f1f1;">
+        <!-- Grid container -->
+        <div class="container pt-4">
+            <!-- Section: Social media -->
+            <section class="mb-4">
+                <!-- Facebook -->
+                <a
+                        class="btn btn-link btn-floating btn-lg text-dark m-1"
+                        href="#!"
+                        role="button"
+                        data-mdb-ripple-color="dark"
+                ><i class="fab fa-facebook-f"></i
+                    ></a>
+                <!-- Instagram -->
+                <a
+                        class="btn btn-link btn-floating btn-lg text-dark m-1"
+                        href="#!"
+                        role="button"
+                        data-mdb-ripple-color="dark"
+                ><i class="fab fa-instagram"></i
+                    ></a>
+            </section>
+        </div>
+        <!-- Copyright -->
+        <div class="text-center text-dark p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+            © 2021 Copyright:
+            <a class="text-dark" href="{{ path('accueil') }}">Sortir.com</a>
+        </div>
+    </footer>
     </body>
 </html>

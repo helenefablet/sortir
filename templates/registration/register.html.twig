@@ -16,12 +16,13 @@
         {{ form_row(registrationForm.administrateur, {
             label: 'Administrateur:'
                 }) }}
-    {{ form_row(registrationForm.campus) }}
+        {{ form_row(registrationForm.campus) }}
         {{ form_row(registrationForm.actif, {
         label: 'Actif:'
                  }) }}
+        {{ form_row(registrationForm.photo) }}
 
 
-    <button type="submit" class="btn">Créer profil</button>
+    <button type="submit" class="btn btn-outline-info">Créer profil</button>
     {{ form_end(registrationForm) }}
 {% endblock %}
