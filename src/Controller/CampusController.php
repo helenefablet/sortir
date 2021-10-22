@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/admin/campus')]
 class CampusController extends AbstractController
 {
-    #[Route('/', name: 'campus_index', methods: ['GET'])]
+    #[Route('/', name: 'campus_index')]
     public function index(CampusRepository $campusRepository): Response
     {
         return $this->render('campus/index.html.twig', [
@@ -21,39 +21,33 @@ class CampusController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'campus_new', methods: ['GET','POST'])]
+    #[Route('/new', name: 'campus_new')]
     public function new(Request $request): Response
     {
         $campus = new Campus();
         $form = $this->createForm(CampusType::class, $campus);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($campus);
             $entityManager->flush();
-
             return $this->redirectToRoute('campus_index', [], Response::HTTP_SEE_OTHER);
         }
-
         return $this->renderForm('campus/new.html.twig', [
             'campus' => $campus,
             'form' => $form,
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'campus_edit', methods: ['GET','POST'])]
+    #[Route('/{id}/edit', name: 'campus_edit')]
     public function edit(Request $request, Campus $campus): Response
     {
         $form = $this->createForm(CampusType::class, $campus);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
             return $this->redirectToRoute('campus_index', [], Response::HTTP_SEE_OTHER);
         }
-
         return $this->renderForm('campus/edit.html.twig', [
             'campus' => $campus,
             'form' => $form,
@@ -63,12 +57,9 @@ class CampusController extends AbstractController
     #[Route('/{id}', name: 'campus_delete')]
     public function delete(Request $request, Campus $campus): Response
     {
-
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($campus);
             $entityManager->flush();
-
-
         return $this->redirectToRoute('campus_index', [], Response::HTTP_SEE_OTHER);
     }
 }

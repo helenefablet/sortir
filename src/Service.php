@@ -14,23 +14,18 @@ class Service
 
     public function __construct(EntityManagerInterface $em, EtatRepository $etatRepository, SortieRepository $sortieRepository)
     {
-
         $this->em = $em;
         $this->etatRepository = $etatRepository;
         $this->sortieRepository = $sortieRepository;
-
     }
 
     public function changeEtatSortieAuto()
     {
-
         $sorties = $this->sortieRepository->findAll();
         $currentDate = new \DateTime();
-
         if (!empty($sorties)) {
 
             foreach ($sorties as $value) {
-
                 $dureeSortie = $value->getDuree();
 
                 //Etat "Clôturée"(date limite d'inscription atteinte ou nombreMax atteint)
@@ -48,12 +43,7 @@ class Service
                 //Enregistrement des modifications effectuées
                 $this->em->persist($value); // Le persist doit être à l'intérieur de la boucle foreach
             }
-
-
             $this->em->flush();
-
         }
-
     }
-
 }

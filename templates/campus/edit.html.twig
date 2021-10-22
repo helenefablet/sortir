@@ -3,13 +3,13 @@
 {% block title %}Modifier campus{% endblock %}
 
 {% block body %}
+
     <h1>Modifier campus</h1>
 
     {{ form_start(form) }}
     {{ form_widget(form) }}
     <button class="btn btn-outline-info">{{ button_label|default('Modifier') }}</button>
     {{ form_end(form) }}
-
 
     <a href="{{ path('campus_index') }}" class="btn btn-outline-info">Retour à la liste</a>
     <a href="{{ path('campus_delete', {'id': campus.id}) }}" class="btn btn-outline-danger">Supprimer</a>

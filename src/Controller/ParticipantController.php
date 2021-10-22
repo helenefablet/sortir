@@ -22,15 +22,12 @@ class ParticipantController extends AbstractController
      * @IsGranted("ROLE_USER")
      * @Route("/Participant/update/{id}", name="participant_update")
      */
-
     public function update(EntityManagerInterface $entityManager,
                            Request                $request,
                            Participant            $participant): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
     {
-
         $formulaire = $this->createForm(ParticipantFormType::class, $participant);
         $formulaire->handleRequest($request);
-
         if ($formulaire->isSubmitted() && $formulaire->isValid()) {
 
             //TRAITEMENT IMAGES
@@ -47,14 +44,11 @@ class ParticipantController extends AbstractController
                     $this->getParameter('images_directory')
                 );
 
-
                 //Stockage en base de données
                 $img = new Image();
                 $img->setNom($fichier);
                 $participant->addImage($img);
-
             }
-
             $this->getDoctrine()->getManager()->flush();
             return $this->redirectToRoute("accueil");
         }
@@ -66,11 +60,8 @@ class ParticipantController extends AbstractController
      * @Route("/Participant/afficherProfil/{id}", name="participant_afficherProfil")
      */
     public function afficherProfil(Participant $participant ){
-
         return $this->render("participant/afficherProfil.html.twig", compact("participant"));
-
     }
-
 
     /**
      * @IsGranted("ROLE_ADMIN")
@@ -88,14 +79,10 @@ class ParticipantController extends AbstractController
     #[Route('/participant/delete/{id}', name: 'participant_delete')]
     public function delete(Request $request, Participant $participant): Response
     {
-
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($participant);
         $entityManager->flush();
-
-
         return $this->redirectToRoute("participant_afficherProfil", [
-
         ], Response::HTTP_SEE_OTHER);
     }
 
@@ -103,21 +90,17 @@ class ParticipantController extends AbstractController
      * @IsGranted("ROLE_USER")
      * @Route("/Participant/modifierMDP/{id}", name="participant_modifierMDP")
      */
-
     public function modifierMDP(EntityManagerInterface $entityManager,
                            Request                $request,
                            Participant            $participant): \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
     {
-
         $formulaire = $this->createForm(ChangePasswordFormType::class, $participant);
         $formulaire->handleRequest($request);
-
         if ($formulaire->isSubmitted() && $formulaire->isValid() && $participant->getPassword() == $request->get('AncienMDP')) {
             $this->getDoctrine()->getManager()->flush();
             return $this->redirectToRoute("accueil");
         }
         return $this->renderForm("participant/modifierMotDePasse.html.twig", compact("formulaire"));
-
     }
 
     }

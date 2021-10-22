@@ -21,7 +21,6 @@ class RegistrationController extends AbstractController
         $user = new Participant();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
 
             //ROLE_ADMIN
@@ -30,7 +29,6 @@ class RegistrationController extends AbstractController
             }else{
                 $user->setRoles(['ROLE_USER']);
             }
-
             // encode the plain password
             $user->setPassword(
             $userPasswordHasherInterface->hashPassword(
@@ -39,22 +37,18 @@ class RegistrationController extends AbstractController
                 )
             );
 
-            //TRAITEMENT IMAGES
+            #TRAITEMENT IMAGES
 
             //récupération des images
             $images = $form->get('images')->getData();
 
-            //Attribut d'un nom de fichier
             foreach ($images as $image){
 
+                //Attribut d'un nom de fichier aléatoire et récupération de son extension
                 $fichier = md5(uniqid()).'.'.$image->guessExtension();
 
-                //Copie dans le fichier uploads
-                    $image->move(
-                    $this->getParameter('images_directory'),
-                        $fichier
-                );
-
+                //Déplacement dans le fichier upload
+                $image->move( $this->getParameter('images_directory'), $fichier );
 
                 //Stockage en base de données
                 $img = new Image();
@@ -62,18 +56,12 @@ class RegistrationController extends AbstractController
                 $user->addImage($img);
             }
 
-
-
             $entityManager = $this->getDoctrine()->getManager();
-
-
             $entityManager->persist($user);
             $entityManager->flush();
 
-
             return $this->redirectToRoute('app_register');
         }
-
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);

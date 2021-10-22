@@ -28,16 +28,12 @@ class LieuController extends AbstractController
         $lieu = new Lieu();
         $form = $this->createForm(LieuType::class, $lieu);
         $form->handleRequest($request);
-
-
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($lieu);
             $entityManager->flush();
-
             return $this->redirectToRoute('lieu_index', [], Response::HTTP_SEE_OTHER);
         }
-
         return $this->renderForm('lieu/new.html.twig', [
             'lieu' => $lieu,
             'form' => $form,
@@ -57,13 +53,10 @@ class LieuController extends AbstractController
     {
         $form = $this->createForm(LieuType::class, $lieu);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
             return $this->redirectToRoute('lieu_index', [], Response::HTTP_SEE_OTHER);
         }
-
         return $this->renderForm('lieu/edit.html.twig', [
             'lieu' => $lieu,
             'form' => $form,
@@ -73,12 +66,9 @@ class LieuController extends AbstractController
     #[Route('/delete/{id}', name: 'lieu_delete')]
     public function delete(Request $request, Lieu $lieu): Response
     {
-
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($lieu);
             $entityManager->flush();
-
-
         return $this->redirectToRoute('lieu_index', [], Response::HTTP_SEE_OTHER);
     }
 }

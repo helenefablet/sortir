@@ -19,7 +19,6 @@ use Symfony\Component\Validator\Constraints\DateTime;
 #[Route('/sortie')]
 class SortieController extends AbstractController
 {
-
     // Fonction api tableau lieux et tableau villes
     /**
      * @Route ("/newLiaison", name="_niewLiaison")
@@ -41,7 +40,6 @@ class SortieController extends AbstractController
         }
 
         $villes = $repoV->findAll();
-
         $tab_Villes = [];
         foreach ($villes as $v)
         {
@@ -54,20 +52,15 @@ class SortieController extends AbstractController
         $tab['lieu'] = $tab_lieux;
         $tab['ville'] = $tab_Villes;
 
-
         return $this->json($tab);
     }
-
-
 
     #[Route('/new', name: 'sortie_new')]
     public function new(Request $request, EtatRepository $etatRepository, EntityManagerInterface $entityManager, LieuRepository $lieuRepository): Response
     {
-
         $sortie = new Sortie();
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
 
             $sortie->setCampus($this->getUser()->getCampus());
@@ -93,13 +86,11 @@ class SortieController extends AbstractController
 
             return $this->redirectToRoute('accueil', [], Response::HTTP_SEE_OTHER);
         }
-
         return $this->render('sortie/new.html.twig',
             [
                 "formS"=>$form->createView()
             ]);
     }
-
 
     #[Route('afficher/{id}', name: 'sortie_show')]
     public function show(Sortie $sortie): Response
@@ -114,13 +105,11 @@ class SortieController extends AbstractController
     {
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('accueil', [], Response::HTTP_SEE_OTHER);
         }
-
         return $this->renderForm('sortie/edit.html.twig', [
             'sortie' => $sortie,
             'form' => $form,
@@ -134,7 +123,6 @@ class SortieController extends AbstractController
             $entityManager->remove($sortie);
             $entityManager->flush();
 
-
         return $this->redirectToRoute("accueil", [
 
         ], Response::HTTP_SEE_OTHER);
@@ -145,12 +133,10 @@ class SortieController extends AbstractController
      */
     public function sinscrire(Sortie $sortie){
 
-
         $currentDate = new \DateTime('now');
         $dateLimite= $sortie->getDateLimiteInscription();
         $nbInscritMax = $sortie->getNbInscriptionsMax();
         $nbInscrit = $sortie->getParticipants()->count();
-
 
         if (( $dateLimite >= $currentDate) &&
                 ( $nbInscritMax > $nbInscrit)){
@@ -160,7 +146,6 @@ class SortieController extends AbstractController
             return $this->redirectToRoute("accueil", [
 
             ], Response::HTTP_SEE_OTHER);
-
         }else
             return $this->redirectToRoute("accueil", [
                 'message'=>'Le nombre de participants maximum ou la date limite a été atteint !'
@@ -172,23 +157,26 @@ class SortieController extends AbstractController
      * @Route ("/seDesister/{id}", name="_seDesister")
      */
     public function seDesister(Sortie $sortie){
-
         $user = $this->getUser();
         $sortie->removeParticipant($user);
         $this->getDoctrine()->getManager()->flush();
         return $this->redirectToRoute("accueil", [
-
         ], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/annulerSortie/{id}', name: 'sortie_annuler')]
-    public function annulerSortie(Sortie $sortie, EtatRepository $etatRepository)
+    public function annulerSortie(Sortie $sortie, EtatRepository $etatRepository, )
     {
+        $participants = $sortie->getParticipants();
         $entityManager = $this->getDoctrine()->getManager();
         $sortie->setEtat($etatRepository->find(6));
+
+            foreach ($participants as $participant){
+                $sortie->removeParticipant($participant);
+            }
+
         $entityManager->persist($sortie);
         $entityManager->flush();
-
         return $this->redirectToRoute("accueil", [
 
         ], Response::HTTP_SEE_OTHER);
@@ -202,7 +190,6 @@ class SortieController extends AbstractController
         $sortie->setEtat($etatRepository->find(2));
         $entityManager->persist($sortie);
         $entityManager->flush();
-
         return $this->redirectToRoute("accueil", [
 
         ], Response::HTTP_SEE_OTHER);
