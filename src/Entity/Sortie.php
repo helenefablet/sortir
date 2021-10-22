@@ -66,21 +66,27 @@ class Sortie
      */
     private $lieu;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Participant::class, inversedBy="orgSorties")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $organisateur;
+
 
     /**
      * @ORM\ManyToMany(targetEntity=Participant::class, inversedBy="sorties")
      */
     private $participants;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Participant::class, inversedBy="orgSorties")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $organisateur;
+
     public function __construct()
     {
         $this->participants = new ArrayCollection();
     }
+
+
+
+
 
 
     public function getId(): ?int
@@ -196,17 +202,7 @@ class Sortie
         return $this;
     }
 
-    public function getOrganisateur(): ?Participant
-    {
-        return $this->organisateur;
-    }
 
-    public function setOrganisateur(?Participant $organisateur): self
-    {
-        $this->organisateur = $organisateur;
-
-        return $this;
-    }
 
     /**
      * @return Collection|Participant[]
@@ -231,5 +227,18 @@ class Sortie
 
         return $this;
     }
+
+    public function getOrganisateur(): ?Participant
+    {
+        return $this->organisateur;
+    }
+
+    public function setOrganisateur(?Participant $organisateur): self
+    {
+        $this->organisateur = $organisateur;
+
+        return $this;
+    }
+
 
 }

@@ -4,38 +4,49 @@
 
 {% block body %}
     <header>
+
         {#  IMAGE  #}
         <img src="{{ asset('img/image_accueil.png') }}" id="img_accueil" class="img-fluid" alt="">
+
         <div>
             <p>Date du jour : {{ "now" | date('d/m/Y H:i') }}</p>
             <p>Participant : {{ app.user.prenom }}  {{ app.user.nom | slice(0,1)~"." }}</p>
         </div>
     </header>
     <main>
+
         {# FILTRE SORTIES #}
         <h2>Filtrer les sorties</h2>
+
         <div id="filtre_accueil">
+
             <div>
                 <label for="campus">Campus</label>
                 <select name="campus" id="campus"></select><br>
                 <label for="site-search">Le nom de la sortie contient:</label>
                 <input type="search" id="site-search" name="q"><br>
             </div>
-            <div id="coche">
+
+            <div>
                 <input type="checkbox" name="organisateur">Sorties dont je suis l'organisateur<br>
                 <input type="checkbox" name="inscrit">Sorties auxquelles je suis inscrit<br>
                 <input type="checkbox" name="pasInscrit">Sorties auxquelles je ne suis pas inscrit<br>
                 <input type="checkbox" name="passees">Sorties passées<br>
             </div>
+
         </div>
+
         <div>
             <label for="dateDepartRecherche">Entre</label>
             <input type="date" id="dateDepartRecherche" name="dateDepartRecherche">
             <label for="dateFinRecherche"> et </label>
             <input type="date" id="dateFinRecherche" name="dateFinRecherche">
         </div>
+
         <hr>
+
         <a href="{{ path('sortie_new', {'id': app.user.id}) }}" class="btn btn-outline-info">Créer une sortie</a><br>
+
         {# TABLEAU SORTIES #}
         <table class="table table-hover">
             <thead>
@@ -51,6 +62,7 @@
                 <th scope="col">Actions</th>
             </tr>
             </thead>
+
             <tbody>
             {% for sortie in sorties %}
                 <tr>
@@ -61,7 +73,6 @@
                     <td>{{ sortie.participants.count }} / {{ sortie.nbInscriptionsMax }}</td>
                     <td>{{ sortie.etat.libelle}}</td>
                     <td>
-
                         {% if sortie.participants.contains(app.user) %}
                             <p>X</p>
                         {% endif %}
@@ -87,6 +98,7 @@
                             {% else %}
                                 <a href="{{ path('_sinscrire', { id: sortie.id}) }}" class="text-info">S'inscrire</a>
                             {% endif %}
+
                         </td>
 
                     </tr>
@@ -95,6 +107,7 @@
                 {% endfor %}
             </tbody>
         </table>
+
         <a href="{{ path('sortie_new', {'id': app.user.id}) }}" class="btn btn-outline-info">Créer une sortie</a>
     </main>
 {% endblock %}

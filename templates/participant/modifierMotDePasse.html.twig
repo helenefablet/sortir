@@ -3,6 +3,14 @@
 {% block title %}Modifier MDP{% endblock %}
 
 {% block body %}
+
+    <div class="container-fluid h-100 bg-light text-dark">
+    <div class="row justify-content-center align-items-center">
+    </div>
+
+    <div class="row justify-content-center align-items-center h-100">
+    <div class="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
+
     <h1>Modifier Mot de Passe</h1>
 
     <label for="AncienMDP">Ancien mot de passe:</label>
@@ -15,5 +23,5 @@
     <a href="{{ path('accueil') }}" class="btn btn-outline-info">Retour</a>
 
     {{ form_end(formulaire) }}
-
+    </div>
 {% endblock %}
