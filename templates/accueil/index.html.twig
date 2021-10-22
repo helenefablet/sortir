@@ -6,7 +6,7 @@
     <header>
 
         {#  IMAGE  #}
-        <img src="{{ asset('img/image_accueil.png') }}" id="img_accueil" class="img-fluid" alt="">
+        <img src="{{ asset('img/image_accueil.png') }}" id="img_accueil" class="img-fluid" alt="Responsive image">
 
         <div>
             <p>Date du jour : {{ "now" | date('d/m/Y H:i') }}</p>
@@ -65,17 +65,17 @@
 
                         <td>
                             {% if (app.user.id == sortie.organisateur.id) or ( is_granted('ROLE_ADMIN')) %}
-                                <a href="{{ path('sortie_edit', {'id': sortie.id}) }}" class="text-info">Modifier</a>
-                                <a href="{{ path('sortie_publier', {'id': sortie.id}) }}" class="text-info">Publier</a>
-                                <a href="{{ path('sortie_annuler', {'id': sortie.id}) }}" class="text-info">Annuler</a>
+                                <a href="{{ path('sortie_edit', {'id': sortie.id}) }}" class="btn btn-outline-info">Modifier</a>
+                                <a href="{{ path('sortie_publier', {'id': sortie.id}) }}" class="btn btn-outline-info">Publier</a>
+                                <a href="{{ path('sortie_annuler', {'id': sortie.id}) }}" class="btn btn-outline-danger">Annuler</a>
                             {% endif %}
 
-                            <a href="{{ path('sortie_show', {'id': sortie.id}) }}" class="text-info">Afficher</a>
+                            <a href="{{ path('sortie_show', {'id': sortie.id}) }}" class="btn btn-outline-info">Afficher</a>
 
                             {% if sortie.participants.contains(app.user) %}
-                                <a href="{{ path('_seDesister', { id : sortie.id}) }}" class="text-danger">Se désister</a>
+                                <a href="{{ path('_seDesister', { id : sortie.id}) }}" class="btn btn-outline-danger">Se désister</a>
                             {% else %}
-                                <a href="{{ path('_sinscrire', { id: sortie.id}) }}" class="text-info">S'inscrire</a>
+                                <a href="{{ path('_sinscrire', { id: sortie.id}) }}" class="btn btn-outline-info">S'inscrire</a>
                             {% endif %}
 
                         </td>
@@ -87,6 +87,5 @@
             </tbody>
         </table>
 
-        <a href="{{ path('sortie_new', {'id': app.user.id}) }}" class="btn btn-outline-info">Créer une sortie</a>
     </main>
 {% endblock %}

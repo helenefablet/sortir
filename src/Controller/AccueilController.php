@@ -19,7 +19,6 @@ class AccueilController extends AbstractController
     public function index(Request $request,SortieRepository $sortieRepository,CampusRepository $campusRepository, Service $service): Response
     {
         $campus = $campusRepository->findAll();
-
         $sorties = $sortieRepository->findAll();
         $service->changeEtatSortieAuto();
 

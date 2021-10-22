@@ -3,6 +3,10 @@
 {% block title %}Nouvelle Sortie{% endblock %}
 
 {% block body %}
+
+
+    <div class="row justify-content-center align-items-center h-100">
+        <div class="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
     <h1>Créer une Sortie</h1>
 
 
@@ -27,7 +31,7 @@
     </select>
 
     {# Bouton pour ajouter un nouveau lieu #}
-    <a href="{{ path('lieu_new') }}"><img src="{{ asset('img/bouton_plus.png') }}" alt=""></a>
+    <a href="{{ path('lieu_new') }}"><img src="{{ asset('img/bouton_plus.png') }}" style="width:5%" alt=""></a>
 
     {# Input caché qui MODIFIE la valeur des boutons Enregistrer=Créée et Publier=ouverte #}
     <input type="hidden" id="info" name="info" value="1">
@@ -102,7 +106,7 @@
            fetch(url)
                 .then( response => response.json())
                 .then(
-                    //je créer un objet contenant le tableau de ville et le tableau de lieu
+                    //je créée un objet contenant le tableau de ville et le tableau de lieu
                     objet => {
                         let villeId = objet.ville[0].id;
                         lieux = objet.lieu;
@@ -110,6 +114,9 @@
                         afficherVille(objet.ville);
        });
     </script>
+
+        </div>
+    </div>
 {% endblock %}
 
 

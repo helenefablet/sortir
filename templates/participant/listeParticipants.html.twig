@@ -23,14 +23,14 @@
                 <th scope="col">Campus</th>
                 <th scope="col">Administrateur</th>
                 <th scope="col">Actif</th>
-                <th scope="col">Actions</th>
+                <th scope="col" class="text-center">Actions</th>
             </tr>
             </thead>
 
             <tbody>
             {% for participant in listeParticipants %}
             <tr>
-                <td><a href="{{ path('participant_afficherProfil', {id: participant.id})}}">{{ participant.nom }}</a></td>
+                <td><a href="{{ path('participant_afficherProfil', {id: participant.id})}}" class="text-info">{{ participant.nom }}</a></td>
                 <td>{{ participant.prenom }}</td>
                 <td>{{ participant.pseudo }}</td>
                 <td>{{ participant.email }}</td>
@@ -40,9 +40,8 @@
                 <td>{{ participant.actif }}</td>
 
                 <td>
-                    <a href="{{ path('participant_listeParticipants', {'id': participant.id}) }}" class="text-info">Désactiver</a>
-                    <a href="{{ path('participant_delete', {'id': participant.id}) }}" class="text-info">Supprimer</a>
-                    <a href="{{ path('app_register') }}" class="text-info">Créer un participant</a><br>
+                    <a href="{{ path('participant_listeParticipants', {'id': participant.id}) }}" class="btn btn-outline-info">Désactiver</a>
+                    <a href="{{ path('participant_delete', {'id': participant.id}) }}" class="btn btn-outline-danger">Supprimer</a>
                 </td>
                 {% endfor %}
             </tr>
